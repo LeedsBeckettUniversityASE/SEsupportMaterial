@@ -1,6 +1,6 @@
 # Introduction
 
-So far you have probably become familiar with Python and Java. The good news is thatthe differences between Python and Java are much bigger than the differences than between C# and Java. It's almost a no-brainer to introduce you to C#, as it is a highly marketable skill and requires very little effort to switch from Java. But while we are here we may as well look at the differences.
+So far you have probably become familiar with Python and Java. The good news is that the differences between Python and Java are much bigger than the differences than between C# and Java. It's almost a no-brainer to introduce you to C#, as it is a highly marketable skill and requires very little effort to switch from Java. But while we are here we may as well look at the differences.
 C# and Java are both modern, object-oriented programming languages used for developing desktop, web, and mobile applications. While they share many similarities in syntax and structure, they differ significantly in platform support, language features, and tooling.
 
 # Key Differences Between C# and Java
@@ -63,10 +63,19 @@ C# offers stronger support for **desktop GUI development**, especially for Windo
 
 ## Summary
 
-- Choose **C#** for Windows apps, Unity games, or ASP.NET web development.
-- Choose **Java** for Android apps, enterprise back-end services, or JVM ecosystems.
+- Typically you would choose **C#** for Windows apps, Unity games, or ASP.NET web development.
+- and **Java** for Android apps, enterprise back-end services, or JVM ecosystems.
 - Both are powerful, mature languages with strong libraries and community support.
 
 ---
+## What about C++
+C++ and C# are both powerful programming languages, but they were designed with different goals in mind, which leads to significant differences in their usage, syntax, and runtime behavior. C++ is a systems programming language that gives developers a high degree of control over memory, hardware, and performance. It supports both procedural and object-oriented paradigms, and it allows for features like direct memory manipulation, pointers, and manual memory management. C#, on the other hand, is primarily for application development within the .NET framework. It emphasizes safety, productivity, and ease of use, with features such as garbage collection and strong type checking to reduce common programming errors.
+
+One of the most significant differences lies in how each language handles memory. In C++, the programmer is responsible for allocating and freeing memory, which provides flexibility but also increases the risk of memory leaks and pointer-related bugs. As we have seen, C# automates this process with a garbage collector, which reclaims unused memory without explicit intervention. This means C# code is generally safer and easier to maintain, but it comes at the cost of reduced control over memory management and potentially less predictable performance in certain scenarios.
+
+Another important distinction is platform and compilation model. C++ typically compiles directly to native machine code, resulting in fast, platform-specific executables. C# compiles to an intermediate language (IL) that runs on the Common Language Runtime (CLR), which provides cross-platform compatibility (especially with .NET Core/.NET 5+), but also introduces an extra execution layer. This runtime environment allows C# to integrate easily with other .NET languages and libraries, while C++ excels in performance-critical applications such as game engines, real-time simulations, and system software.
+
+Finally, the two languages differ in their standard libraries and ecosystem. C++ has the Standard Template Library (STL), which offers generic data structures and algorithms but leaves most high-level features to external libraries. C# has a rich, integrated Base Class Library (BCL) that provides ready-to-use functionality for GUI development, networking, database access, and more. This makes C# particularly well-suited for enterprise applications, web services, and Windows desktop software, while C++ remains the go-to choice for applications where speed and hardware-level control are paramount, this includes safety crictical systems, operating systems and games. C++ is an extension of C and C is still used in smaller embedded systems.
+
 
 
