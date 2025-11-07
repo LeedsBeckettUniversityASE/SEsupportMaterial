@@ -3,7 +3,7 @@
 When you create a unit test project It should be in the same solution and folder structure as the main project. For ASE GitHub Classroom this means that your repo folder should be the root folder for both the assignment project and the MStest project. That way the MStest project will show up as untracked files and you can add them to your repo.
 
 ## The problem
-When a MSTest project is selected it gives you the option to select the framework and it must match the framework of the project under test,
+When a MSTest project is selected it gives you the option to select the framework and it must match the framework of the project under test.
 However, it does not give you the option of selecting a Windows Form project. Therefore, if you have a Windows Forms project and you create a MSTest project in the same solution, 
 when you add a reference to it you will see a yellow warning triangle on the project dependencies of the test project where it refers to the project under test.
 This is because the projects don't match.  
@@ -26,4 +26,4 @@ They don't match and this is why you are getting the warning. The fix is simple,
 Once you have done this build your solution and the warning will disappear. You will now be able to put the relevant using into your MStest project, or accept the "show potential fixes" that puts it in where your test code references your main code.
 
 ## A final potential problem
-Your unit testing code is not likely to be in the same namespace as your project under test. Therefore, if you see a syntax error that says "due to it's protection level", it is because you have defined your classes without an appellation of "public" (make sure it isn’t defined as "intern
+Your unit testing code is not likely to be in the same namespace as your project under test. Therefore, if you see a syntax error that says "...due to its protection level....", it is because you have defined your classes without an appellation of "public" (make sure it isn’t defined as "internal"."
