@@ -6,6 +6,8 @@ Design Patterns are the best way of tackling a common problem in software design
  ###  The Factory Design Pattern
  The Factory Design Pattern is used to handle dependencies. Wherever there is a “new” keyword there is a dependency. This means that if you want to reuse the class then you must also have all of the classes it references with a new keyword, and all of the classes each of those references with a new keyword! It quickly makes reuse impractical. Instead the factory design pattern moves all the dependencies to one place, the factory, and if any are missing it will report so via an exception. You may still have enough for what you want. It simplified dependencies greatly, that’s why it is a good idea and that is why it has become the accepted solution for this problem.
 
+
+ [The full example code is in this repo](https://github.com/LeedsBeckettUniversityASE/ShapesFactory)
  ### Stage 1 - Create an interface
  ```csharp
   interface Shapes
@@ -186,82 +188,58 @@ Design Patterns are the best way of tackling a common problem in software design
   The factory doesn't do anything other than create a generic shape object based on what is asked for. Note that it uses the blank constructors only. The main program will then call the set() method to set it up.
 
   ### Stage 5 Use the Factory to create the objects
+```csharpe
+class Circle : Shape
+ {
+     int radius;
 
- ```csharp
-   public Form1()
-        {
-            InitializeComponent();
+     public Circle():base()
+     {
+         //it's not obvious why I've bothered to put an empty blank constructor, but it is bacause I want it to call the base class constructor, in case that does anything.
+     }
+     public Circle(Color colour, int x, int y, int radius) : base(colour, x, y)
+     {
 
-            ShapeFactory factory = new ShapeFactory();
-            try
-            {
-                shapes.Add(factory.getShape("circle"));
-                shapes.Add(factory.getShape("triangle"));
-                shapes.Add(factory.getShape("rectangle"));
-                
-            }
-            catch (ArgumentException e)
-            {
-                Console.WriteLine("Invalid shape: " + e);
-                
-            }
+         this.radius = radius; //the only thingthat is different from shape
+     }
 
-            //add some random shapes
-            Random rand = new Random(77887);
-            for (int i=0; i<150; i++)
-            {
-                int x = rand.Next(Size.Width);
-                int y = rand.Next(Size.Height);
-                int size = rand.Next(250);
+      
+     public  void set( Color colour, int x, int y, int radius)
+     {
+         //note: This is not overridden, it is overloaded as it isn't the same method signature as in Shape
+         base.set(colour, x, y);
+         this.radius = radius;
+     }
 
-                int red = rand.Next(255);
-                int green = rand.Next(255);
-                int blue = rand.Next(255);
+    
 
-                Color newColour = Color.FromArgb(128, red, green, blue); //128 is semi transparent
+     public override void draw(Graphics g)
+     {
 
-                int shape = rand.Next(4);
-                Shape s;
-                try
-                {
-                    Console.WriteLine("Creating shape type " + shape);
-                    switch (shape)
-                    {
-                        case 0:
-                            Circle c;
-                            c = (Circle) factory.getShape("circle");
-                            c.set(newColour, x, y, size);
-                            shapes.Add(c);// new Circle(newColour, x, y, size));
+         Pen p = new Pen(Color.Black,2);
+         SolidBrush b = new SolidBrush(colour);
+         g.FillEllipse(b, x, y, radius * 2, radius * 2);
+         g.DrawEllipse(p, x, y, radius * 2, radius * 2);
+         base.draw(g);
+     }
 
-                            break;
-                        case 1:
-                            Rectangle r;
-                            r = (Rectangle) factory.getShape("rectangle");
-                            r.set(newColour, x, y, size, size);
-                            shapes.Add(r);
-                            break;
-                        case 2:
-                            Square sq;
-                            sq = (Square) factory.getShape("square");
-                            sq.set(newColour, x, y, size, size);
-                            shapes.Add(sq);
-                            break;
-                        case 3:
-                           //there isn't a triangle
-                            s = factory.getShape("tri");
-                            s.set(newColour, x, y);
-                            shapes.Add(s);
-                            break;
+     public override double calcArea()
+     {
+         return Math.PI * (radius^2);
+     }
 
-                    }
-                }
-                catch (ArgumentException e)
-                {
-                    Console.WriteLine("Invalid shape: " + e);
+     public override double calcPerimeter()
+     {
+         return 2 * Math.PI*radius;
+     }
 
-                }
-            }
-  ```
+     public override string ToString() //all classes inherit from object and ToString() is abstract in object
+     {
+         String text = base.ToString() + "  " + this.radius; 
+         return text;
+     }
+ }
 
+```
 
-            The factory creates an object and returns its reference. We then call the newly created object’s set() method to set it up (a job that would formally have been done in the constructor. All the dependencies (new keyword) have been moved into the factory. In this trivial example they were all in the main program anyway, but in reality they would have been spread throughout a larger application, making reuse a nightmare.
+The factory creates an object and returns its reference. We then call the newly created object’s set() method to set it up (a job that would formally have been done in the constructor. All the dependencies (new keyword) have been moved into the factory. In this trivial example they were all in the main program anyway, but in reality they would have been spread throughout a larger application, making reuse a nightmare.
