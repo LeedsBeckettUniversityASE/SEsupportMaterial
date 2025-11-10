@@ -188,7 +188,7 @@ Design Patterns are the best way of tackling a common problem in software design
   The factory doesn't do anything other than create a generic shape object based on what is asked for. Note that it uses the blank constructors only. The main program will then call the set() method to set it up.
 
   ### Stage 5 Use the Factory to create the objects
-```csharpe
+```csharp
 class Circle : Shape
  {
      int radius;
@@ -252,6 +252,7 @@ The Factory Pattern is an example of a Creational Design Pattern.
 ### Singleton
 
 Ensures only one instance of a particular class exists throughout the lifetime of an application, and it provides a global point of access to that instance. This is useful when exactly one object is needed to coordinate actions across the system—for example, a logging service, configuration manager, or connection pool. In C#, the singleton is typically implemented by making the class constructor private, storing a static reference to the single instance within the class, and providing a public static property or method to retrieve it. This approach prevents multiple instances from being created while still allowing controlled and thread-safe access to the shared resource.```csharp
+```csharp
 public class Logger
 {
     private static Logger _instance;
