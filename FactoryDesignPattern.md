@@ -10,7 +10,7 @@ Design Patterns are the best way of tackling a common problem in software design
  [The full example code is in this repo](https://github.com/LeedsBeckettUniversityASE/ShapesFactory)
  ### Stage 1 - Create an interface
  ```csharp
- interface Shapes
+ interface ShapesInterface
     {
         void set(Color c, int x, int y);
         void draw(Graphics g);
@@ -34,7 +34,7 @@ Design Patterns are the best way of tackling a common problem in software design
 
  ### Stage 2 Create an abstract class that implements the interface
   ```csharp
- abstract class Shape:Shapes
+ abstract class Shape:ShapesInterface
     {
         protected Color colour; //shape's colour
         protected int x, y; //not I could use c# properties for this
