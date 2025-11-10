@@ -10,9 +10,9 @@ Design Patterns are the best way of tackling a common problem in software design
  [The full example code is in this repo](https://github.com/LeedsBeckettUniversityASE/ShapesFactory)
  ### Stage 1 - Create an interface
  ```csharp
-  interface Shapes
+ interface Shapes
     {
-        void set(Color c, params int[] list);
+        void set(Color c, int x, int y);
         void draw(Graphics g);
         double calcArea();
         double calcPerimeter();
