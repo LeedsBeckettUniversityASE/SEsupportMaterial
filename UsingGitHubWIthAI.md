@@ -12,9 +12,62 @@ Even if you are a solo developer and aren't pushing to GitHub.com, Visual Studio
 This forces a moment of pause where you can review exactly what lines of code the local LLM changed.
 It stops you from accidentally merging hidden bugs, temporary testing classes, or unwanted file deletions into your clean main branch.
 
-Workflow for GitHub in Visual Studio
-```git
-git checkout main
-git pull
-git checkout -b feature/read-star-chart
-```
+## Workflow
+### Step 1 Create A Repo
+You can do this in GitHub and clone it or you can do it in Visual Studio
+
+**Git\>Create Git Repository**  
+Fill in the details, they are self-explanatory.  
+Note: If you have been asked to store work in the GitHub Classroom then ensure that you do.  
+Click create and push.  
+Now we will create a feature branch for the AI to work on.  
+**Git\>New Branch**
+  
+Call it feature-create-star-class  
+On your Solution Explorer click on Git you should now see your new branch on a drop down box.  
+ 
+<img width="352" height="237" alt="branchDisplay" src="https://github.com/user-attachments/assets/745e3bfa-aff1-401d-b23e-59df45991248" />
+
+
+If you click your branch, you will be able to change it to “main”. Main is our main branch that we will only update when we are happy with the changes.
+
+**3 Create a class to store your star data**   
+Right click your project and select add-class and call it star.cs
+
+**4Get your local assistant to create the code for a Star**  
+I used the following comment with **AI Studio>Code It**
+
+**//create a class to store data for stars, it will need int id, string name, double distance, doubles for x,y and z, double for magnitude, string for spect, all in C\# uppercase variable names with setters and getters.**
+
+Again, that is an easy task but the AI will do it quicker than me.
+
+Right click on each of the methods it generates and **AI Studio\>Add Summary**  
+This is an excellent opportunity to review what it created while it generates the documentation. Note also that documentation is also one of our software engineering topics.
+
+It is now time to commit this to our repo.  
+Type in an appropriate commit message “AI generated [star.cs](http://star.cs) added” then click the up arrow (push) then the circle arrow (refresh). Now look at your repo on GitHub.  
+
+<img width="615" height="309" alt="mainBranch" src="https://github.com/user-attachments/assets/74c2c1be-5fd3-4691-aa2d-6f77fd3dc6e2" />
+
+You can see that here it is on the master branch but commits have been made to feature-create-star-class  
+When I click the drop down on master and swap to feature-create-star-class  
+I see  
+
+<img width="615" height="309" alt="featureBranch" src="https://github.com/user-attachments/assets/3ff617bf-5328-47a2-850f-cc71cd95a55c" /> 
+
+
+You can see it is saying that this branch is 1 commit ahead of the master branch. In reality it is likely to get lots of commits ahead as we would only update the master branch when we have completed a feature. Here it was a pretty minor one and has only taken one commit.
+
+We are now going to enter the **Review Phase** by creating a pull request.  
+**Git-\>GitHub\>New Pull Request**   
+It will show side by side changes. Here the only change is a load of new code where there was none. But ordinarily there could be a lot of changes that we can accept or reject.  
+Click ***Create***
+On the top right click ***Merge*** and on the resulting dialogue box select ***Create a merge commmit*** and ***Merge***
+This will update the main brach so that it now holds the latest version of the project.
+Strictly speaking the role of feature-create-star-class is over and you would probably delete it. Here though I want you to keep all of your branches so that I can see that it has been done properly!
+
+You can create and merge pull requests in GitHub itself. You can also see your open and close pull requests by clicking ***pull requests*** on your repo.
+
+You should complete the above process for every distict feature in your software.
+
+[Here is the repo used in this example](https://github.com/dmullier/3DstarChart)
