@@ -55,18 +55,50 @@ I see
 
 <img width="615" height="309" alt="featureBranch" src="https://github.com/user-attachments/assets/3ff617bf-5328-47a2-850f-cc71cd95a55c" /> 
 
-
 You can see it is saying that this branch is 1 commit ahead of the master branch. In reality it is likely to get lots of commits ahead as we would only update the master branch when we have completed a feature. Here it was a pretty minor one and has only taken one commit.
-
 We are now going to enter the **Review Phase** by creating a pull request.  
 **Git-\>GitHub\>New Pull Request**   
 It will show side by side changes. Here the only change is a load of new code where there was none. But ordinarily there could be a lot of changes that we can accept or reject.  
-Click ***Create***
+Click ***Create*** and Give it a sensible name that describes what you have completed.
+***Git>GitHub>View Pull Requests***
+Click your new pull request on the Window that opens up.
 On the top right click ***Merge*** and on the resulting dialogue box select ***Create a merge commmit*** and ***Merge***
 This will update the main brach so that it now holds the latest version of the project.
 Strictly speaking the role of feature-create-star-class is over and you would probably delete it. Here though I want you to keep all of your branches so that I can see that it has been done properly!
-
 You can create and merge pull requests in GitHub itself. You can also see your open and close pull requests by clicking ***pull requests*** on your repo.
+
+***Doing it with GitHub instead***
+You can also do this on the GitHub website and it is often the preferred method for many developers because the web interface is incredibly clean, updates instantly, and gives you a fantastic side-by-side visual comparison of the changes.
+
+Here is exactly how to complete the merge on the GitHub website:
+
+***1. Go to your Repository***
+
+* Open your web browser, navigate to **GitHub.com**, and open your project repository (`NovaLeagueII`).
+
+***2. Open the Pull Requests Tab***
+
+* Along the top menu bar of your repository (next to *Code*, *Issues*, and *Actions*), click on the **Pull Requests** tab.
+* You will see a list of active requests. Click on your specific feature branch PR (it will likely say something like `#3` or match the `feature-create-3d-mov...` branch name seen in your screenshot).
+
+***3. Review and Click Merge***
+
+* Scroll down to the bottom of that Pull Request's page.
+* If there are no code conflicts, you will see a large, bright green button that says **Merge pull request**.
+* Click **Merge pull request**, and then click the green **Confirm merge** button that appears right after it.
+
+***Crucial Final Step: Bring the Code Back to Visual Studio***
+
+Once you click "Confirm merge" on the website, your code is safely merged into `main` on the cloud, but your local computer doesn't know that yet.
+
+Go back to Visual Studio and run these final steps to sync up:
+
+1. Click your branch name in the bottom-right corner of Visual Studio and switch back to **`main`**.
+2. Go to the top menu and select **Git > Pull** (or click **Sync**).
+
+Your local machine will pull down the completed work from the cloud, your project will be perfectly up to date, and you're ready to start the next feature!
+
+### Finally
 
 You should complete the above process for every distict feature in your software.
 
