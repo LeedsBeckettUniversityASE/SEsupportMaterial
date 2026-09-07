@@ -38,7 +38,8 @@ This is what I have learned in a nutshell.
   * This is good because it is less like vibe programming and gives you more chances to understand the code.  
   * But sometimes it can get out of hand, in these cases, but absolutely not all, tell it to give you a complete method, or even the full class.
 
-
+## Setting Up a LocalLLM
+[I have prepared a seperate document on how to set up a Local LLM](https://github.com/LeedsBeckettUniversityASE/SEsupportMaterial/blob/main/LocalLLMsetup.md)
 
 ## **Using GitHub with AI Assisted Programming**
 
