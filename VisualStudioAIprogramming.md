@@ -9,11 +9,11 @@ Duncan Mullier 2026
 
 Let’s get one thing straight right away. **This is not Vibe Programming** Vibe programming is fine if you want to build a pretty web site that does very little, or an app that has very few facilities. Vibe programming is where you blindly get the AI to implement each step and don’t even look at the code. I have used Vibe programming to write the backend for some software for my local cycle league. It was simple and easy to instruct the AI.
 
-The example below cannot be done with Vibe programming and what’s more by going through it you will see why. This is just an example to create a realistic 3D star chart and fly through it. You will see where the AI comes unstuck and it took a human to put it right. You will also see where the AI produces code that is a mess and it took a software engineer to spot it and put it right. Having said that, hands up who will put their money in a bank that used vibe programming, or fly in an aeroplane with systems written with vibe programming? Do you think that the new Hinckley C nuclear power station is being vibed?
+The example below cannot be done with Vibe programming and what’s more by going through it you will see why. This is just an example to create a realistic 3D star chart and fly through it. Note that you may have no interest in star charts, but a software engineer doesn't get to choose what their clients pay them to do! You will see where the AI comes unstuck and it took a human to put it right. You will also see where the AI produces code that is a mess and it took a software engineer to spot it and put it right. Having said that, hands up who will put their money in a bank that used vibe programming, or fly in an aeroplane with systems written with vibe programming? Do you think that the new Hinckley C nuclear power station is being vibed?
 
 This exercise will show you how to use a Local LLM or cloud LLM, integrated into your environment. This will aid your programming and thus allow you to concentrate on the bigger picture, such as the software engineering principles, and consequently go much further in development that you would otherwise be able to do.
 
-There is more than one way to program with AI. Here we will circumvent expensive subscriptions and do it with a local model. We could use GitHub’s Copilot and we could use Copilot outside of the environment at the repo level. In my experience. I used CoPilot in GitHub to Vibe my Cycle League backend. This is where from the repo page, I ask it to do something and then pull the results back to my local environment. In my experience this is the easiest way to vibe, because your hands do very little, you don’t even have to paste code from the chat window. It really is like having another programmer work on the code. But the danger is that you really don’t have to look at the code and you are more likely to fall into the traps that we see below. In my experience it is very difficult to write any sort of complex program this way.
+There is more than one way to program with AI. Here we will show you how to circumvent expensive subscriptions and do it with a local model. We could use GitHub’s Copilot and we could use Copilot outside of the environment at the repo level. In my experience. I used CoPilot in GitHub to Vibe my Cycle League backend. This is where from the repo page, I ask it to do something and then pull the results back to my local environment. In my experience this is the easiest way to vibe, because your hands do very little, you don’t even have to paste code from the chat window. It really is like having another programmer work on the code. But the danger is that you really don’t have to look at the code and you are more likely to fall into the traps that we see below. In my experience it is very difficult to write any sort of complex program this way.
 
 ### **Summary**
 
@@ -30,7 +30,7 @@ This is what I have learned in a nutshell.
     * No need to unwind the commit for something minor.  
 * Prompt for one simple feature at a time, if you are using the word “and” you are asking for too much and run the risk of it making a misconception.  
 * Have a separate chat for the domain, here I had one for Astronomy and the one writing the code (don’t mix them together, one is acting like the knowledge from the client).  
-  * I used the astronomy one to explain things like how unnamed stars are assigned a catalogue number, which I then used the other chat to generate.  
+  * I used the astronomy one to explain things like how unnamed stars are assigned a catalogue number, which I then used the other chat to generate code for.  
 * Get your own overview of the code as soon as possible.  
   * Become familiar with the classes/methods/structure.  
   * You don’t need to learn the code it gives you but you do need to understand the meaning of what it has given you to a method level.  
@@ -205,11 +205,11 @@ Once installed you will get **Tools-Open Local LLM Chat** which opens a window f
 
 ## **Using GitHub with AI Assisted Programming**
 
-It is vital to use GitHub so that we can review and accept or reject what the AI does. Think of it like working on a project with an enthusiastic junior. You don’t want to pop of for lunch to find when you come back that they’ve completely rewritten the code and it no longer works, does things it shouldn’t and explodes. What we will do is carefully store each change the AI makes and then review it before accepting it. I have prepared a separate document on the steps to take, but you should do this for every step below.
+It is vital to use GitHub so that we can review and accept or reject what the AI does. Think of it like working on a project with an enthusiastic junior. You don’t want to pop off for lunch to find when you come back that they’ve completely rewritten the code and it no longer works, does things it shouldn’t and explodes. What we will do is carefully store each change the AI makes and then review it before accepting it. I have prepared a separate document on the steps to take, but you should do this for every step below.
 
 [Using GitHub for AI Programming](https://github.com/LeedsBeckettUniversityASE/SEsupportMaterial/blob/main/UsingGitHubWIthAI.md)
 
-You should read the above before moving on.
+You should read the above documentbefore moving on.
 
 ## 
 
@@ -237,7 +237,7 @@ And I don’t remember giving it leave to call me familiar either.
 I have lots of examples of this.
 
 **Tips for working with AI**  
-We are going to use a LLM to help us code. It will frequently get things wrong and also not give code that is maintainable and scalable in a proper engineering way. We are there to correct that. When it gets something wrong we want to be able to go back. That’s why we are using GitHub. GitHub was invented before AI programming but for the same reason. It allows multiple people to work on the same code, here, us and the AI. To be formal we can go back a commit and if we were using Copilot inside GitHub (and spending money) we’d have it make commits and if we didn’t like them we’d reject them. The danger of that can be that it becomes a bit vibey because it can change a lot of classes in one go and overloads us. Here we will be doing it one step at a time. As such we should really only be changing one or two classes in one go and if we don’t like it, I’d just go to my code on the GitHub webpage, paste it and paste it back into my Visual Studio.
+We are going to use a LLM to help us code. It will frequently get things wrong and also not give code that is maintainable and scalable in a proper engineering way. AI also tends to want to please and give us the answer we want or an answer when there isn't one. We are there to correct that. When it gets something wrong we want to be able to go back. That’s why we are using GitHub. GitHub was invented before AI programming but for the same reason. It allows multiple people to work on the same code, here, us and the AI. To be formal we can go back a commit and if we were using Copilot inside GitHub (and spending money) we’d have it make commits and if we didn’t like them we’d reject them. The danger of that can be that it becomes a bit vibey because it can change a lot of classes in one go and overloads us. Here we will be doing it one step at a time. As such we should really only be changing one or two classes in one go and if we don’t like it, I’d just go to my code on the GitHub webpage, paste it and paste it back into my Visual Studio.
 
 You can also compile your code and paste any syntax errors (and you will get them when the AI suggests library calls that don’t exist).
 
@@ -304,7 +304,7 @@ The reason I’m doing this is I need to tell it about the [Stars.cs](https://gi
 In the chat window I put **/read 3DstarMap/[Star.cs](http://Star.cs)**  
 It now knows about that class. This is a bit of a drawback with using a small Local LLM, as it can’t remember all of your classes easily. A better way to do it is to tell it the parts it needs to know. Here I’ve given it the whole code, this breaks encapsulation, it would have been better to have generated documentation and given it that. That way it gets only what it needs to know about (see encapsulation).
 
-I then told it what I wanted it to do with:  
+I then told it what I wanted it to do:  
 *create a class called StarCollection to load the star data from a csv file and store it as objects of the preexiting Star class, it will need a list of stars and a method to load the data from the file, it will also need a method to get the list of stars.*  
  *the data is in the form id hip hd hr gl bf name ra dec distance pmra pmdec rv mag absmag spect ci x y z vx vy vz rarad decrad pmrarad pmdecrad bayer flam con comp comp\_primary base lum var var\_min var\_max.*  
 *Ignore data this is not in the star class, we only need id, name, distance, x, y, z, magnitude, spect. Do not create internal classes.*  
@@ -319,6 +319,7 @@ This will ensure the csv file is in the output directory along with our project�
 
 When I tested the code it had produced I noticed that it has an if testing to see that the number of items it got back when the line was split was 12\. This clearly will never be the case, we want to use 12 of 37 items in the file. It’s got the wrong end of the stick here. But no matter, I am a software engineer and I can sort that out. The next problem is that the first line is the header and it’s just wading in and trying to make a star. Again, I’m a software engineer and I can sort that out easily. There is no need risking the AI outputting another error when I can just sort it out myself more quickly.
 
+```csharp
 public void LoadFromCsv(string filePath)  
  {  
      string\[\] lines \= File.ReadAllLines(filePath);
@@ -344,6 +345,7 @@ public void LoadFromCsv(string filePath)
          }  
      }  
  }
+ ```
 
 I’ll change the check to 37\. I’ll then make it ignore a line if it isn’t data. I know I can use tryParse for this, but if I didn’t I could give the AI my intention and ask it how I’d do it.   
 When I run the code through the debugger (and again remember **I AM THE SOFTWARE ENGINEER HERE**, if you are tempted to just keep making the AI do everything you will never get this to work) I noticed that it had got the columns wrong for the data. No matter, easy to correct. It had got the star’s name as column 7, when it’s 6 etc. I can see how wrong it is and how to correct it in the debugger, so I will correct it. There is no point in getting AI to correct this, I can see all the columns are wrong, it will take me less then 60 seconds to put them all right. I know the temptation is to get AI to do it, but it’s got it wrong once and it will do it again. Chaos theory dictates there are more ways to be wrong than right (see entropy).  
@@ -430,7 +432,8 @@ This is ok, but you already know that I’m a science nerd and I can see that th
 
 I tried changing the targetDestination in AnimateToSun() to (0,0,0.0045) but it made no difference, so I asked AI why.  
 It gave me some lines to add   
-\`\`\`cshape  
+
+```csharp
 private void AnimateCameraToSun()  
 {  
     if (MainViewport.Camera is PerspectiveCamera helixCamera)  
@@ -444,7 +447,7 @@ private void AnimateCameraToSun()
         MainViewport.Camera.LookAt(targetDestination, lookDirection, upDirection, 6000);  
     }  
 }  
-\`\`\`  
+```
 **But, the Software Engineer in me bristled (whereas the vibe programmer, like a goldfish in a bowl, hasn’t a clue).**
 
 This is repeating the definitions that are in AnimateCameraToSun() and I already was going to convert them into constants so that later I could maybe have them input from a user interface.
