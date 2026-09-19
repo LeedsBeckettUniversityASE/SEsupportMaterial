@@ -1,5 +1,3 @@
-##### **This is a work in progress, send comments to @dmullier**
-
 **AI Programming with Visual Studio**  
 Duncan Mullier 2026
 
@@ -38,7 +36,28 @@ This is what I have learned in a nutshell.
   * This is good because it is less like vibe programming and gives you more chances to understand the code.  
   * But sometimes it can get out of hand, in these cases, but absolutely not all, tell it to give you a complete method, or even the full class.
 
+## AI Tools for Software Engineering
+
+### Your Available AI Tools
+
+* **GitHub Copilot (in Visual Studio or other IDE):** An AI coding assistant integrated directly into your editor. It reads your active files, understands your project structure and provides context-aware help without requiring you to leave your workspace.
+* **Gemini/ChaptGPT/Claude (Web Interface):** A powerful conversational AI accessed via a web browser. It is excellent for deep conceptual learning, explaining complex architecture, and troubleshooting dense error logs.
+* **Local LLM** No usage limits, use whenever and whereever, but requires a GPU and depending upon the size of the model it may be limited.
+
+### Securing Free Access to GitHub Copilot
+[See here on how to get GitHub Copilot for free as a student](https://github.com/LeedsBeckettUniversityASE/ASEresources/blob/main/GitHubStudentStatus.md)
+
+### Usage strategy
+It's up to you to find what works best for you. I have used all three strategies independantly and together. My findings are that using a web interface LLM, like Gemini, involves an extra step and that step forces you to look at the code produced. GitHub Copilot is a little too convinient to let it just get on with it and soon you will have lost total sight of the code produce and it's too late to go back. If you are developing heavily then you will run out of tokens on GitHub, or you may find subscriptions to LLMs too much to bare, in that case go for the Local LLM.
+
+Remember GitHub Copilot for students operates on a monthly usage allowance. To avoid running out of chat tokens halfway through an assignment, I recommend a hybrid approach.
+
+* **Use Copilot for Writing Code (Unlimited):** Inline code completions and next-edit suggestions do not consume your monthly allowance. Leave Copilot enabled in your IDE to help with standard syntax and to generate boilerplate structures (like `main()` signatures) quickly.
+* **Automatic Token Optimization:** Your student account is locked to "Auto model selection". This means GitHub automatically routes your queries to highly efficient, lightweight models—such as Microsoft's new MAI-Code-1.1-Flash. This uses significantly fewer tokens, helping stretch your monthly allowance much further without any manual management on your end. ***BE WARNED, leaving assignments to the last minute means you WILL run out of tokens!***
+* **Use Gemini for Complex Debugging (Conserves Tokens):** The Copilot Chat panel is strictly limited. Pasting massive error logs or entire projects into Copilot Chat will drain your tokens quickly. When you hit a wall use a LLM like Gemini instead. This preserves your Copilot limits while giving you in-depth, multi-turn explanations.
+
 ## Setting Up a LocalLLM
+This is a useful skill in its own right and not just for software engineering.
 [I have prepared a seperate document on how to set up a Local LLM](https://github.com/LeedsBeckettUniversityASE/SEsupportMaterial/blob/main/LocalLLMsetup.md)
 
 ## **Using GitHub with AI Assisted Programming**
