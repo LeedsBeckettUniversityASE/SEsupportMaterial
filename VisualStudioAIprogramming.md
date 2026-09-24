@@ -145,17 +145,17 @@ It now knows about that class. This is a bit of a drawback with using a small Lo
 I then told it what I wanted it to do:  
 *create a class called StarCollection to load the star data from a csv file and store it as objects of the preexiting Star class, it will need a list of stars and a method to load the data from the file, it will also need a method to get the list of stars.*  
  *the data is in the form id hip hd hr gl bf name ra dec distance pmra pmdec rv mag absmag spect ci x y z vx vy vz rarad decrad pmrarad pmdecrad bayer flam con comp comp\_primary base lum var var\_min var\_max.*  
-*Ignore data this is not in the star class, we only need id, name, distance, x, y, z, magnitude, spect. Do not create internal classes.*  
-You can see I’ve looked at the csv file I have and told it the data it needs to use and ignore the rest.
+*Ignore data that is not in the star class, we only need id, name, distance, x, y, z, magnitude, spect. Do not create internal classes.*  
+You can see I’ve looked at the csv file that I previously downloaded and told it the data it needs to use and ignore the rest.
 
 It created a good class, but when I looked at it I decided that I wanted a constructor to take the star catalogue file, my reasoning being that the stars aren’t likely to change (although Bethelgeuse is reputed to be on the brink of supernova and keeps dimming) and I’m not planning on switching universes (although I quite fancy one without Donald Trump in it), so there will only ever be one catalogue.
-
+Notice, that a vibe programmer would not have done this, they would have just accepted the code the AI generated blindly and in so doing would end up getting further away from extensible software.
 I did it myself, but I could have got the AI to do it.
 
-To handle the data itself, I copied the csv file into my project by dragging and dropping it. I then had to tell the environment to copy it when the project runs. **Right click on starchart.csv-properties**, select **copy to output directory-copy if newer**  
-This will ensure the csv file is in the output directory along with our project’s exe file, so we can load it without specifying a path.
+To handle the data, I copied the csv file into my project by dragging and dropping it. I then had to tell the environment to copy it when the project runs. **Right click on starchart.csv-properties**, select **copy to output directory-copy if newer**  
+This will ensure the csv file is in the output directory along with our project’s exe file, so we can load it without specifying a path. If you don't do this it won't be in the directory of the created executable, it will be where the source files are.
 
-When I tested the code it had produced I noticed that it has an if testing to see that the number of items it got back when the line was split was 12\. This clearly will never be the case, we want to use 12 of 37 items in the file. It’s got the wrong end of the stick here. But no matter, I am a software engineer and I can sort that out. The next problem is that the first line is the header and it’s just wading in and trying to make a star. Again, I’m a software engineer and I can sort that out easily. There is no need risking the AI outputting another error when I can just sort it out myself more quickly.
+When I tested the code it had produced I noticed that it has an 'if' statement for testing to see that the number of items it got back when the line was split was 12\. This clearly will never be the case, we want to use 12 of 37 items in the file. It’s got the wrong end of the stick here. But no matter, I am a software engineer and I can sort that out. The next problem is that the first line is the header and it’s just wading in and trying to make a star. Again, I’m a software engineer and I can sort that out easily. There is no need risking the AI outputting another error when I can just sort it out myself more quickly.
 
 ```csharp
 public void LoadFromCsv(string filePath)  
@@ -188,6 +188,8 @@ public void LoadFromCsv(string filePath)
 I’ll change the check to 37\. I’ll then make it ignore a line if it isn’t data. I know I can use tryParse for this, but if I didn’t I could give the AI my intention and ask it how I’d do it.   
 When I run the code through the debugger (and again remember **I AM THE SOFTWARE ENGINEER HERE**, if you are tempted to just keep making the AI do everything you will never get this to work) I noticed that it had got the columns wrong for the data. No matter, easy to correct. It had got the star’s name as column 7, when it’s 6 etc. I can see how wrong it is and how to correct it in the debugger, so I will correct it. There is no point in getting AI to correct this, I can see all the columns are wrong, it will take me less then 60 seconds to put them all right. I know the temptation is to get AI to do it, but it’s got it wrong once and it will do it again. Chaos theory dictates there are more ways to be wrong than right (see entropy).  
 I can see it has also missed of the Spectral class, so I’ll add that too.
+
+**Let's just take a moment to reiterate this. If something doesn'ty work, you are the software engineer and you need to fix it. You can ask the AI for help, but you are the one that needs to understand what is going on. It can help with fixing but that is very different from trying to prompt it again and again until it works (vibe to me is a dirty word).****
 
 I will make it make an object of my new class in the form [MainWindow.xaml.cs](http://MainWindow.xaml.cs)\>Source  
 StarCollection starChart \= new StarCollection("starchart.csv");
