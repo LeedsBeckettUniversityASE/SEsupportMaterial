@@ -74,7 +74,7 @@ Here is exactly how to complete the merge on the GitHub website:
 
 ***1. Go to your Repository***
 
-* Open your web browser, navigate to **GitHub.com**, and open your project repository (`NovaLeagueII`).
+* Open your web browser, navigate to **GitHub.com**, and open your project repository.
 
 ***2. Open the Pull Requests Tab***
 
