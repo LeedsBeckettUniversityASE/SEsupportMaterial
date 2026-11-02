@@ -1,7 +1,7 @@
 # Building Documentation with DocFX and Hosting on GitHub
 Building and hosting documentation for a Visual Studio C# project using **DocFX** and **GitHub** involves generating static HTML pages from your source code's XML documentation comments and markdown files, then automating the deployment using GitHub Actions. 
 
-Firstly create an example console project in Visual Studio and call it SmartHomeSimulator (you can call it what you like but you'll have to change the namespaces below to match).
+Firstly create an example console project in Visual Studio and call it SmartHomeSimulator.
 
 Now we'll add some code that is already documented. Note this is about building a documentation site and not the fact that this code doesn't really do anything when run.
 
@@ -181,6 +181,10 @@ namespace SmartHomeSimulator
 
 We've now got a complete example project, just ensure it builds with no syntax errors.
 
+### Now commit it to GitHub.
+Select Git->Create Git Repository
+You will see your GitHub account details.
+
 Now we have an example we can create  our documentation site.
 
 ### **Phase 1: Enable XML Documentation in Visual Studio**
@@ -290,6 +294,74 @@ By default, GitHub Pages uses a processor called Jekyll that will block your Doc
 
 Within 1 to 2 minutes, GitHub will finish building your site in the background. A link will appear at the top of the Pages settings screen (or on your repository homepage under "Environments") where you can view your live documentation.
 
-Note it is not running locally and you can publish this web address.
+## Automatically generating Documentation on GitHub
+This is the **proper** way to do it, but it does involve another step. If you've done the way above first it might be worth creating the project again in a seperate repo and then trying out this way.
+
+Firstly we want to ignore any local files that have been generated with DocFX.
+Edit .gitignore and add these at the bottom
+_site/
+api/
+
+Next we need to create a file that will tell GitHub to automatically generate the doumentation when we commit, this is exactly like running doxfx, but it does it on the GitHub server.
+
+Run the following commands to make a directory and a file within that directory
+```
+mkdir -Path .github\workflows
+New-Item -Path .github\workflows\docs.yml -ItemType File
+```
+Edit the newly created .github\workflows\docs.yml and add the following code
+
+```
+name: Build and Deploy DocFX Site
+
+on:
+  push:
+    branches: [ master ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x' # Match your project's target SDK
+
+      - name: Install DocFX
+        run: dotnet tool update -g docfx
+
+      - name: Build DocFX site
+        run: docfx docfx.json
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '_site' # Default DocFX output directory
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+```
+Ensure all of these files are committed, either by commandline or in Visual Studio
+```
+git add .github/workflows/docs.yml
+git add docfx.json
+git add docs/ index.md toc.yml docfx.json IDevice.cs Program.cs SmartHub.cs Thermostat.cs SmartHomeSimulator2.csproj SmartHomeSimulator2.slnx .gitattributes .gitignore
+git commit -m "Add DocFX GitHub Actions workflow"
+git push
+```
+
+Go to your repo and select select setting-pages
+Change Build and Deployment source to GitHub Actions
+
+Each time you commit quickly click on the Actions tab and you'll see it generating, once complete you can go to the pages tab and click on View Site to see your documentation site.
 
 
