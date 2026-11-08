@@ -7,20 +7,20 @@ An example is we want to open a file, process data from the file and then close 
 when we open the file, it isn't found, or when we try and read from the file a disc sector error prevents it from happening. In these cases, we need to handle the exception and take appropriate action.
 
 Exception handling is a programming mechanism designed to manage runtime errors and unexpected failures gracefully, preventing applications from crashing abruptly. 
-Instead of letting an error halt execution, a program can intercept or "catch" the exception when it occurs (thrown) and redirect flow to a safe recovery, 
-cleanup, or logging. This is achieved by using structures like `try`, `catch`, and `finally` blocks. This ensures that even when things go wrong—such as a missing file or a 
-dropped database connection—the program can respond in a controlled, predictable manner rather than failing catastrophically. Furthermore, 
+Instead of letting a problem halt execution, a program can intercept or "catch" the exception when it occurs (thrown) and redirect flow to a safe recovery, 
+cleanup, or logging. This is achieved by using structures like `try`, `catch` and `finally` blocks. This ensures that even when things go wrong—such as a missing file or a 
+dropped database connection, the program can respond in a controlled and predictable manner rather than failing catastrophically. Furthermore, 
 the code handling the exception is separated from the main code, making the code much clearer.
 
 Separating exception handling from the main execution logic is vital for code readability, maintainability, and software design. 
-When error-handling code is heavily intertwined directly with core business logic, the primary purpose of the code becomes obscured by 
+When error-handling code is heavily intertwined directly with core logic, the primary purpose of the code becomes obscured by 
 endless conditional checks, making it difficult to read and update. By isolating error management into dedicated `catch` blocks, developers 
-can focus purely on the intended workflow in the `try` section, allowing anomalies to bubble up cleanly and be handled separately without cluttering 
+can focus purely on the main logic in the `try` section, allowing anomalies to bubble up cleanly and be handled separately without cluttering 
 the main logic flow.
 
 In pre OO languages such as C, handling runtime errors required manually passing error codes or status flags back up through every single layer of the 
 call stack, forcing developers to write repetitive conditional checks (such as `if (status != 0)`) after every function call. This tedious approach 
-cluttered core logic and made it easy to accidentally ignore failures. C++ revolutionized this by introducing native exception handling 
+cluttered core logic and made it easy to accidentally ignore failures. C++ revolutionised this by introducing native exception handling 
 using `try`, `catch`, and `throw` keywords, which automatically unwinds the call stack when an exception occurs, cleanly bypassing intermediate functions and 
 allowing exceptions to bubble up effortlessly until they reach a handler designed to deal with them.
 
