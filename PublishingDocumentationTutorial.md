@@ -364,4 +364,6 @@ Change Build and Deployment source to GitHub Actions
 
 Each time you commit quickly click on the Actions tab and you'll see it generating, once complete you can go to the pages tab and click on View Site to see your documentation site.
 
+[The full code repo is here)[https://github.com/LeedsBeckettUniversityASE/SmartHomeSimulatorExample]
+
 
