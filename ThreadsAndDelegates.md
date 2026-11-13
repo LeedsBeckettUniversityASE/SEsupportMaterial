@@ -149,12 +149,64 @@ namespace Thread
 This example is building [ThreadFlashExampleNew](https://github.com/LeedsBeckettUniversityASE/ThreadFlashExampleNew) found in the ASE repo.
 
 Here we will create a thread to flash a button, using the simplified Thread class (we don't have to create our own delegate).
-Create a Form project and on the form make a button (leave it called button1).
-Inside the class, as instance data create a reference to thread, as we will want to use it throughout the class.
+
+* Create a Form project and on the form make a button (leave it called button1).
+
+* Inside the class, as instance data create a reference to thread, as we will want to use it throughout the class.
 ```csharp
  Thread newThread;
 ```
 
+* Double click on your button so that it fills in the button click method.
+* Now we want a method that is going to be run as out thread so create a method called, unimaginatively, ThreadMethod that returns cvoid and has no parameters.
+
+
+```csharp
+namespace ThreadsExample
+{
+    public partial class Form1 : Form
+    {
+        Thread newThread;
+        public Form1()
+        {
+            Debug.WriteLine("thread 1");
+            InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        public void ThreadMethod()
+        {
+            Debug.WriteLine("thread 2");
+        }
+    }
+}
+```
+* Now we will create a Thread object and pass our ThreadMethod(), we can do this because Thread provides a delegate that is void with no parameters and out method matches this.
+* To make it start we must call our thread's start() method.
+
+```csharp
+    newThread = new Thread(ThreadMethod);   //create a thread passing the ThreadMethod() as the thread
+    newThread.Start();
+```
+
+Run it and not much will happen, it will display on the debug console thread1 and thread2, then both threads exit and the form is just waiting for something to happen.
+
+* Change the code so that it loops indefinitely.
+
+```csharp
+while (true)
+{
+    Debug.WriteLine("thread 2");
+}
+```
+Now it doesn't exit and the console keeps saying "thread 2" while the form operates normally.
+
+## Making it change the colour of the button
+We need to make it flip the background colour of the button. It can be seen from the properties that a Button has a 
 ## Using Threads in Java
 
 To run threads in Java, follow these steps:
