@@ -145,16 +145,17 @@ namespace Thread
     }
 }
 ```
-## Threads Form Exmple
+## Threads Form Example
+This example is building [ThreadFlashExampleNew](https://github.com/ASE/ThreadFlashExampleNew) found in the ASE repo.
+
 Here we will create a thread to flash a button, using the simplified Thread class (we don't have to create our own delegate).
 Create a Form project and on the form make a button (leave it called button1).
 Inside the class, as instance data create a reference to thread, as we will want to use it throughout the class.
 ```csharp
-
+ Thread newThread;
 ```
 
 ## Using Threads in Java
-This example is building [ThreadFlashExamleNew](https://github.com/ASE/ThreadFlashExampleNew) found in the ASE repo.
 
 To run threads in Java, follow these steps:
 1. **Import:** Import the `java.lang.Runnable` class.
