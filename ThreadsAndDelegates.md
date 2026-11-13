@@ -146,7 +146,7 @@ namespace Thread
 }
 ```
 ## Threads Form Example
-This example is building [ThreadFlashExampleNew](https://github.com/ASE/ThreadFlashExampleNew) found in the ASE repo.
+This example is building [ThreadFlashExampleNew](https://github.com/LeedsBeckettUniversityASE/ThreadFlashExampleNew) found in the ASE repo.
 
 Here we will create a thread to flash a button, using the simplified Thread class (we don't have to create our own delegate).
 Create a Form project and on the form make a button (leave it called button1).
