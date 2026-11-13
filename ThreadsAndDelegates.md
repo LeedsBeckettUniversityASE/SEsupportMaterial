@@ -206,7 +206,35 @@ while (true)
 Now it doesn't exit and the console keeps saying "thread 2" while the form operates normally.
 
 ## Making it change the colour of the button
-We need to make it flip the background colour of the button. It can be seen from the properties that a Button has a 
+We need to make it flip the background colour of the button. It can be seen from the properties that a Button has a BackColor property.
+It won't look good to just change it from one colour to another. We need to slow it down and give the display chance to update.
+We can do this with `Thread.Sleep(milliseconds)` which will pause the thread for a given number of milliseconds.
+I will also use a boolean variable (sometimes called a flag) to indicate which colour it should be.
+
+`flag` should be declared as instace data.
+```csharp
+    while (true)
+    {
+                if (flag == false)
+                {
+                    this.button1.BackColor = Color.Red;
+
+                }
+                else
+                {
+                    this.button1.BackColor = Color.Gray;
+
+                }
+                flag = !flag;
+                Thread.Sleep(500);
+    }
+                
+```
+
+* Note, if you exit by clicking the form's close button, it doesn't actually kill the application. Then when you try and run it again you will get an error saying it can't copy the exe.
+* You will have to bring up the task manager (alt-ctrl-del), search for the name of your app and `end task`.
+
+
 ## Using Threads in Java
 
 To run threads in Java, follow these steps:
