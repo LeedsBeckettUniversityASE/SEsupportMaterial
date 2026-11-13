@@ -40,7 +40,7 @@
 * It is made safe by using a delegate.
 * A delegate specifies a template (signature) that a method must fit.
 * **Declaration Example:**
-* 
+
 ```csharp
   delegate void MyDelegate(string s);
 ```
@@ -76,7 +76,86 @@ internal class Program
 <img src="images/DelegateExampleOutput.png" width ="250" />
 
 The point of this is that we must use delagates to use threads in C#
+
+## Threads in C#
+* **Thread Class:** The `Thread` class is used to create and manage threads.
+* We pass to it the method we want to run as a thread, which must match the signature of the delegate.
+```csharp
+Thread plusThread = new Thread(PrintPlus);
+```
+* The thread will run until the method completes, at which point it will terminate.
+```csharp
+static void PrintPlus()
+{
+    for (int i = 0; i < 100; i++)
+    {
+        Console.Write("+");
+        Thread.Sleep(10);
+    }
+}
+```
+* The thread must be started with the `Start()` method:
+```csharp
+plusThread.Start();
+```
+### complete example
+```csharp
+namespace Thread
+{
+    using System;
+    using System.Threading;
+
+    class Program
+    {
+        static void Main()
+        {
+            // Create two separate threads and assign them their respective tasks
+            Thread plusThread = new Thread(PrintPlus);
+            Thread minusThread = new Thread(PrintMinus);
+
+            // Start executing both threads concurrently
+            plusThread.Start();
+            minusThread.Start();
+
+            // Wait for both threads to finish before exiting the main program
+            plusThread.Join();
+            minusThread.Join();
+
+            Console.WriteLine("\nDone!");
+        }
+
+        static void PrintPlus()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                Console.Write("+");
+                // A short delay forces the CPU to switch back and forth between threads
+                Thread.Sleep(10);
+            }
+        }
+
+        static void PrintMinus()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                Console.Write("-");
+                Thread.Sleep(10);
+            }
+        }
+    }
+}
+```
+## Threads Form Exmple
+Here we will create a thread to flash a button, using the simplified Thread class (we don't have to create our own delegate).
+Create a Form project and on the form make a button (leave it called button1).
+Inside the class, as instance data create a reference to thread, as we will want to use it throughout the class.
+```csharp
+
+```
+
 ## Using Threads in Java
+This example is building [ThreadFlashExamleNew](https://github.com/ASE/ThreadFlashExampleNew) found in the ASE repo.
+
 To run threads in Java, follow these steps:
 1. **Import:** Import the `java.lang.Runnable` class.
 2. **Implement:** Make your class implement the `Runnable` interface (e.g., `public class MyClass implements Runnable`).
@@ -84,11 +163,15 @@ To run threads in Java, follow these steps:
 4. **Create:** Create a thread object (`myThread = new Thread(this, "name");`).
 5. **Start:** Start the thread in initialization code (`myThread.start();`).
 6. **Define Code:** Provide the code to execute concurrently inside the `run()` method:
-   ```java
-   public void run() {
-       // Thread execution code
-   }
-   ```
+   
+```csharp
+  Thread newThread;
+```
+
+Create a method which will be our thread. Note this is the second thread as our normal program is the first "thread of execution".
+```csharp
+    public void ThreadMethod()       
+```
 
 ## Synchronized Methods
 * Use the `synchronized` keyword for non-constructor methods (e.g., `public synchronized void method()`).
