@@ -75,7 +75,16 @@ internal class Program
 ```
 <img src="images/DelegateExampleOutput.png" width ="250" />
 
-The point of this is that we must use delagates to use threads in C#
+You have seen delegates previously. In the managed code of the form they are used to pass event methods.
+When you add a button, for example, and then click on it to generate the button_click() method, it put the delegate in the managed code.
+```csharp
+button1.Click += button1_Click;
+```
+
+Note how it is using `+=`, that is because we can add delegates together like above and hence call several methods on the button click if we want to.
+Java cannot do this as it doesn't have delegates and instead we must just use the method the interface expects, `actionPerformee(ActionEvent ae)` for example.
+
+The point of this is that we must use delagates to use threads in C#.
 
 ## Threads in C#
 * **Thread Class:** The `Thread` class is used to create and manage threads.
@@ -309,7 +318,7 @@ private void timer1_Tick(object sender, EventArgs e)
     Debug.Write("+");        
 }
 ```
-WHy not get it to do something more exciting, like flashing the second button?
+Why not get it to do something more exciting, like flashing the second button?
 
 # Using Threads in Java
 
