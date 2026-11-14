@@ -234,11 +234,91 @@ I will also use a boolean variable (sometimes called a flag) to indicate which c
 * Note, if you exit by clicking the form's close button, it doesn't actually kill the application. Then when you try and run it again you will get an error saying it can't copy the exe.
 * You will have to bring up the task manager (alt-ctrl-del), search for the name of your app and `end task`.
 
+## Controlling the thread
+The thread is flashing the background of the button and we could signal to it to stop doing this whilst leaving it active so it can star again.
+Again we will use a boolean variable (flag) to indicate whether it should be flashing or not and signal it with the button.
+* declare an instance boolean variable called `flashFlag` and set it to false
+```csharp
+    private void button1_Click(object sender, EventArgs e)
+    {
+        flashFlag = !flashFlag;
+    }
+```
+Clicking the button will flip the flag. Next we need to read it in the thread and only flash the background if it is true.
+```csharp
+    while (true)
+    {
+        if (flashFlag == true)
+        {
+            if (flag == false)
+            {
+                this.button1.BackColor = Color.Red;
+            }
+            else
+            {
+                this.button1.BackColor = Color.Gray;
+            }
+            flag = !flag;
+        }
+        Thread.Sleep(500);
+    }
+```
+ Note that when the user clicks the button it could be red or gray, you might want to set it back to gray.
 
-## Using Threads in Java
+ ## Stopping the thread
+ Any methods used to stop a thread are deprecated and unsafe. The only safe way to stop a thread is to signal to it to stop.
+ * Create another boolean flag, called endThreadFlag and set it to false.
+ * Make the while loop `while (endThreadFlag == false)` and then when you want to stop the thread set endThreadFlag to true. Do this by creating a second button and setting the endThread flag in it's click method.
+ 
+ ```csharp
+    private void button2_Click(object sender, EventArgs e)
+    {
+        endThreadFlag = true;
+    }
+```
+Now when the second button is clicked the thread will method will leave the loop and exit naturally.
+
+## Ending the thread when the form closes
+As notes above the thread still runs when the form is closed and this meant we had to kill the application with the debugger or the task manager.
+
+We want the thread to stop when the form is closed. We can do this by setting endThread to true on the form's 'formClosing' event. 
+In the event properties of the form select 'formClosing' and set the endThread flag.
+
+```csharp
+    private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+    {
+        endThreadFlag = true;
+    }
+```
+You may notice thatthe debugger exits when you close the form now, it didn't before because teh application (thread 2) was still running.
+**remember you can't just paste code for event handlers in without doing it from the designer or adding the delegate call in the managed code. **
+
+## The C# Timer
+There is also a very simple way to use threads in C#. In the toolbox there is a component called Timer. 
+This is a component that can be added to a form and it will run a method at regular intervals. 
+
+* On the toolbox drag a Timer onto your form.
+* It has one event method 'Tick()' which is called avery time time the Interval (property) is reached. 
+* The interval is in milliseconds and can be set in the properties of the timer.
+* Set the Interval property to 500 (half a second) and double click on the timer to create the Tick() method.
+* You can start and stop the timed by setting its Enabled propert to true or false. 
+
+```cshape
+private void timer1_Tick(object sender, EventArgs e)
+{
+    Debug.Write("+");        
+}
+```
+WHy not get it to do something more exciting, like flashing the second button?
+
+# Using Threads in Java
 
 To run threads in Java, follow these steps:
 1. **Import:** Import the `java.lang.Runnable` class.
+
+Instead we will signal to the thread toi stop by changing the endThread flag when the form is closed.
+
+This is achieved by 
 2. **Implement:** Make your class implement the `Runnable` interface (e.g., `public class MyClass implements Runnable`).
 3. **Reference:** Define a reference to a `Thread` class (`Thread myThread;`).
 4. **Create:** Create a thread object (`myThread = new Thread(this, "name");`).
