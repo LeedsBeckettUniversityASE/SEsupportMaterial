@@ -84,7 +84,7 @@ button1.Click += button1_Click;
 Note how it is using `+=`, that is because we can add delegates together like above and hence call several methods on the button click if we want to.
 Java cannot do this as it doesn't have delegates and instead we must just use the method the interface expects, `actionPerformee(ActionEvent ae)` for example.
 
-The point of this is that we must use delagates to use threads in C#.
+The point of this is that we must use delegates to use threads in C#.
 
 ## Threads in C#
 * **Thread Class:** The `Thread` class is used to create and manage threads.
@@ -167,7 +167,7 @@ Here we will create a thread to flash a button, using the simplified Thread clas
 ```
 
 * Double click on your button so that it fills in the button click method.
-* Now we want a method that is going to be run as out thread so create a method called, unimaginatively, ThreadMethod that returns cvoid and has no parameters.
+* Now we want a method that is going to be run as out thread so create a method called, unimaginatively, ThreadMethod that returns void and has no parameters.
 
 
 ```csharp
@@ -218,9 +218,9 @@ Now it doesn't exit and the console keeps saying "thread 2" while the form opera
 We need to make it flip the background colour of the button. It can be seen from the properties that a Button has a BackColor property.
 It won't look good to just change it from one colour to another. We need to slow it down and give the display chance to update.
 We can do this with `Thread.Sleep(milliseconds)` which will pause the thread for a given number of milliseconds.
-I will also use a boolean variable (sometimes called a flag) to indicate which colour it should be.
+I will also use a Boolean variable (sometimes called a flag) to indicate which colour it should be.
 
-`flag` should be declared as instace data.
+`flag` should be declared as instance data.
 ```csharp
     while (true)
     {
@@ -245,7 +245,7 @@ I will also use a boolean variable (sometimes called a flag) to indicate which c
 
 ## Controlling the thread
 The thread is flashing the background of the button and we could signal to it to stop doing this whilst leaving it active so it can star again.
-Again we will use a boolean variable (flag) to indicate whether it should be flashing or not and signal it with the button.
+Again we will use a Boolean variable (flag) to indicate whether it should be flashing or not and signal it with the button.
 * declare an instance boolean variable called `flashFlag` and set it to false
 ```csharp
     private void button1_Click(object sender, EventArgs e)
@@ -272,11 +272,11 @@ Clicking the button will flip the flag. Next we need to read it in the thread an
         Thread.Sleep(500);
     }
 ```
- Note that when the user clicks the button it could be red or gray, you might want to set it back to gray.
+ Note that when the user clicks the button it could be red or grey, you might want to set it back to grey.
 
  ## Stopping the thread
  Any methods used to stop a thread are deprecated and unsafe. The only safe way to stop a thread is to signal to it to stop.
- * Create another boolean flag, called endThreadFlag and set it to false.
+ * Create another Boolean flag, called endThreadFlag and set it to false.
  * Make the while loop `while (endThreadFlag == false)` and then when you want to stop the thread set endThreadFlag to true. Do this by creating a second button and setting the endThread flag in it's click method.
  
  ```csharp
@@ -288,7 +288,7 @@ Clicking the button will flip the flag. Next we need to read it in the thread an
 Now when the second button is clicked the thread will method will leave the loop and exit naturally.
 
 ## Ending the thread when the form closes
-As notes above the thread still runs when the form is closed and this meant we had to kill the application with the debugger or the task manager.
+As noted above the thread still runs when the form is closed and this meant we had to kill the application with the debugger or the task manager.
 
 We want the thread to stop when the form is closed. We can do this by setting endThread to true on the form's 'formClosing' event. 
 In the event properties of the form select 'formClosing' and set the endThread flag.
@@ -299,7 +299,33 @@ In the event properties of the form select 'formClosing' and set the endThread f
         endThreadFlag = true;
     }
 ```
-You may notice thatthe debugger exits when you close the form now, it didn't before because teh application (thread 2) was still running.
+We need to update our Thread 2 code so that it looks up and sees the flag.
+```csharp
+  public void ThreadMethod()
+        {
+            while (endThreadFlag == false) //is the thread being asked to stop?
+            {
+                if (flashFlag == true)
+                {
+                    if (flag == false)
+                    {
+                        this.button1.BackColor = Color.Red;
+
+                    }
+                    else
+                    {
+                        this.button1.BackColor = Color.Gray;
+
+                    }
+                    flag = !flag;
+                    Thread.Sleep(500);
+                }
+                Debug.Write("+");
+            }
+        }
+```
+
+You may notice that the debugger exits when you close the form now, it didn't before because the application (thread 2) was still running.
 **remember you can't just paste code for event handlers in without doing it from the designer or adding the delegate call in the managed code. **
 
 ## The C# Timer
@@ -307,10 +333,10 @@ There is also a very simple way to use threads in C#. In the toolbox there is a 
 This is a component that can be added to a form and it will run a method at regular intervals. 
 
 * On the toolbox drag a Timer onto your form.
-* It has one event method 'Tick()' which is called avery time time the Interval (property) is reached. 
+* It has one event method 'Tick()' which is called every time the Interval (property) is reached. 
 * The interval is in milliseconds and can be set in the properties of the timer.
 * Set the Interval property to 500 (half a second) and double click on the timer to create the Tick() method.
-* You can start and stop the timed by setting its Enabled propert to true or false. 
+* You can start and stop the timed by setting its Enabled property to true or false. 
 
 ```cshape
 private void timer1_Tick(object sender, EventArgs e)
@@ -318,28 +344,33 @@ private void timer1_Tick(object sender, EventArgs e)
     Debug.Write("+");        
 }
 ```
-Why not get it to do something more exciting, like flashing the second button?
+
+## Things to do
+* Why not get it to do something more exciting, like flashing the second button?
+* Make it so that two threads flash the same button different colours (one thread does it red and grey, the second blue and grey)
+    * Make it so that both flashers can be started independently
+    * What happens when they are sharing the same resource?
 
 # Using Threads in Java
 
 To run threads in Java, follow these steps:
 1. **Import:** Import the `java.lang.Runnable` class.
 
-Instead we will signal to the thread toi stop by changing the endThread flag when the form is closed.
+Instead we will signal to the thread to stop by changing the endThread flag when the form is closed.
 
 This is achieved by 
-2. **Implement:** Make your class implement the `Runnable` interface (e.g., `public class MyClass implements Runnable`).
-3. **Reference:** Define a reference to a `Thread` class (`Thread myThread;`).
-4. **Create:** Create a thread object (`myThread = new Thread(this, "name");`).
-5. **Start:** Start the thread in initialization code (`myThread.start();`).
-6. **Define Code:** Provide the code to execute concurrently inside the `run()` method:
+* Implement:** Make your class implement the `Runnable` interface (e.g., `public class MyClass implements Runnable`).
+* Reference:** Define a reference to a `Thread` class (`Thread myThread;`).
+* Create: Create a thread object (`myThread = new Thread(this, "name");`).
+* Start: Start the thread in initialization code (`myThread.start();`).
+* Define Code: Provide the code to execute concurrently inside the `run()` method:
    
-```csharp
+```java
   Thread newThread;
 ```
 
 Create a method which will be our thread. Note this is the second thread as our normal program is the first "thread of execution".
-```csharp
+```java
     public void ThreadMethod()       
 ```
 
