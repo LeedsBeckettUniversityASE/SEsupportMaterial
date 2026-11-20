@@ -1,7 +1,11 @@
-# The Factory Design Pattern
+# Design Patterns
 ## Using the Shapes Example
 
-Design Patterns are the best way of tackling a common problem in software design. Why reinvent the wheel? If you are using a design pattern then your code will be recognised by other developers because we all use the same design patterns. It's a bit like using inheritance, because it's a good idea to, but design patterns aren’t specifically built into the language and so can be more encompassing and general. Here we will look at one example but there are many.
+Design Patterns are the best way of tackling a common problem in software design. Why reinvent the wheel? 
+If you are using a design pattern then your code will be recognised by other developers because we all use 
+the same design patterns. It's a bit like using inheritance, because it's a good idea to, but design patterns 
+aren’t specifically built into the language and so can be more encompassing and general. Here we will look at 
+one example in detail and then briefly look at some others but there are many.
  
  ###  The Factory Design Pattern
  The Factory Design Pattern is used to handle dependencies. Wherever there is a “new” keyword there is a dependency. This means that if you want to reuse the class then you must also have all of the classes it references with a new keyword, and all of the classes each of those references with a new keyword! It quickly makes reuse impractical. Instead the factory design pattern moves all the dependencies to one place, the factory, and if any are missing it will report so via an exception. You may still have enough for what you want. It simplified dependencies greatly, that’s why it is a good idea and that is why it has become the accepted solution for this problem.
@@ -251,7 +255,13 @@ Here is a list of some other design patterns that tend to fit into the three typ
 The Factory Pattern is an example of a Creational Design Pattern.
 ### Singleton
 
-Ensures only one instance of a particular class exists throughout the lifetime of an application, and it provides a global point of access to that instance. This is useful when exactly one object is needed to coordinate actions across the system—for example, a logging service, configuration manager, or connection pool. In C#, the singleton is typically implemented by making the class constructor private, storing a static reference to the single instance within the class, and providing a public static property or method to retrieve it. This approach prevents multiple instances from being created while still allowing controlled and thread-safe access to the shared resource.```csharp
+Ensures only one instance of a particular class exists throughout the lifetime of an application and it provides a global point 
+of access to that instance. This is useful when exactly one object is needed to coordinate actions across the system, for example, 
+a logging service, configuration manager, or connection pool. In C#, the singleton is typically implemented by making the class 
+constructor private, storing a static reference to the single instance within the class, and providing a public static property 
+or method to retrieve it. This approach prevents multiple instances from being created while still allowing controlled and 
+thread-safe access to the shared resource.
+
 ```csharp
 public class Logger
 {
@@ -286,7 +296,7 @@ Logger.Instance.Log("Application started");
 ```
 
 ## Builder
-separates the construction of a complex object from its representation, allowing the same construction process to create different types or configurations of objects. Instead of using a long or confusing constructor with many parameters, the builder provides a step-by-step approach where each method sets a specific property or part of the object. Once all parts are specified, a final Build() method returns the finished object. This makes code easier to read, maintain, and extend, especially when creating objects that require multiple optional or dependent components. In C#, the builder pattern is often implemented using a dedicated Builder class that holds an instance of the object being built and exposes fluent methods to configure it.
+Separates the construction of a complex object from its representation, allowing the same construction process to create different types or configurations of objects. Instead of using a long or confusing constructor with many parameters, the builder provides a step-by-step approach where each method sets a specific property or part of the object. Once all parts are specified, a final Build() method returns the finished object. This makes code easier to read, maintain, and extend, especially when creating objects that require multiple optional or dependent components. In C#, the builder pattern is often implemented using a dedicated Builder class that holds an instance of the object being built and exposes fluent methods to configure it.
 ```csharp
 public class Car
 {
