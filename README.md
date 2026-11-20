@@ -5,6 +5,7 @@ This repository contains tutorials and reference material for software engineeri
 ## Guides
 
 - [AI Programming with Visual Studio](VisualStudioAIprogramming.md)
+	
 	A practical project demonstrating AI-assisted programming in Visual Studio, with an emphasis on reviewing and improving generated code.
 
 - [Artificial Intelligence and Software Engineering](ArtificialIntelligence_and_SoftwareEngineering.md) 

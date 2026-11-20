@@ -8,24 +8,42 @@ aren’t specifically built into the language and so can be more encompassing and 
 one example in detail and then briefly look at some others but there are many.
  
  ###  The Factory Design Pattern
- The Factory Design Pattern is used to handle dependencies. Wherever there is a “new” keyword there is a dependency. This means that if you want to reuse the class then you must also have all of the classes it references with a new keyword, and all of the classes each of those references with a new keyword! It quickly makes reuse impractical. Instead the factory design pattern moves all the dependencies to one place, the factory, and if any are missing it will report so via an exception. You may still have enough for what you want. It simplified dependencies greatly, that’s why it is a good idea and that is why it has become the accepted solution for this problem.
+ The Factory Design Pattern is used to handle dependencies. Wherever there is a “new” keyword there is a dependency. 
+ This means that if you want to reuse the class then you must also have all of the classes it references with a new 
+ keyword, and all of the classes each of those references with a new keyword! It quickly makes reuse impractical. 
+ Instead the factory design pattern moves all the dependencies to one place, the factory, and if any are missing it 
+ will report so via an exception. You may still have enough for what you want. It simplified dependencies greatly, 
+ that’s why it is a good idea and that is why it has become the accepted solution for this problem.
 
 
  [The full example code is in this repo](https://github.com/LeedsBeckettUniversityASE/ShapesFactory)
  ### Stage 1 - Create an interface
  ```csharp
- interface ShapesInterface
-    {
+ interface IShape
+ {
         void set(Color c, int x, int y);
         void draw(Graphics g);
         double calcArea();
         double calcPerimeter();
-
-    }
-
+ }
  ```
   
- We create an interface so that the classes we are going to use in our program and classes that could be added in the future all conform to the expectations of the application in hand. Here, the program is going to want to draw and calculate the area and perimeter, the main program calls these methods to do that. If a future developer write a new class that conforms to this interface, to draw a triangle say, then the main program does not need to be touched or viewed at all but will draw the new triangle. Also, the factory design pattern stipulates that you don’t use constructors. The reason for this is that the factory just makes stuff. Think of asking for a bike frame, you get back a raw, unpainted, carbon fibre frame. You would then paint it and add any other components. The constructor is like painting it. It isn’t the factory’s role (so the design pattern says). But, in the end you will still want your frame painted. We just do this after it has been created by the factory. So, in effect we just write any methods that take the place of any constructors and they can be called after the factory has created the object (this gets around the fact that a constructor is called only when creating an object). The factory therefore only uses blank constructors (i.e. newClass() ). To cut a long story short, the set() method in the interface is taking the place of the constructor.
+ We create an interface so that the classes we are going to use in our program and, further classes that could be 
+ added in the future, all conform to the expectations of the application in hand. Here, the program is 
+ going to want to draw the shape and calculate the area and perimeter. The main program calls these methods to do that. 
+ If a future developer wrote a new class that conforms to this interface, to draw a triangle say, then the main 
+ program does not need to be touched or viewed at all but will draw the new triangle. Further, the factory design 
+ pattern stipulates that we don’t use constructors. The reason for this is that the factory just makes stuff. 
+ Think of asking for a bike frame, you get back a raw, unpainted, carbon fibre frame. You would then paint it 
+ and add any other components. The constructor is like making it, painting it the colour you want and attaching the components to it.
+ It isn’t the factory’s role (so the design 
+ pattern says). But, in the end you will still want your frame painted. We just do this after it has been created 
+ by the factory. So, in effect we just write any methods that takes the place of any constructors and they can be 
+ called after the factory has created the object (this gets around the fact that a constructor is called only when 
+ creating an object). The factory therefore only uses blank constructors (i.e. newClass() ). To cut a long story 
+ short, the set() method in the interface is taking the place of the constructor.
+
+ 
 
  ```csharp
  \\old way
@@ -160,8 +178,7 @@ one example in detail and then briefly look at some others but there are many.
         public Shape getShape(String shapeType)
         {
             shapeType = shapeType.ToUpper().Trim(); //you could argue that you want a specific word string to create an object but I'm allowing any case combination
-            
-           
+                    
             if (shapeType.Equals("CIRCLE"))
             {
                 return new Circle();
@@ -181,9 +198,7 @@ one example in detail and then briefly look at some others but there are many.
                 //if we get here then what has been passed in is unknown so throw an appropriate exception
                 System.ArgumentException argEx = new System.ArgumentException("Factory error: "+shapeType+" does not exist");
                 throw argEx;
-            }
-
-           
+            }          
         }
     }
 
