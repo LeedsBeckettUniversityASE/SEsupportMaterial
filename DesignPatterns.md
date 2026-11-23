@@ -4,16 +4,16 @@
 Design Patterns are the best way of tackling a common problem in software design. Why reinvent the wheel? 
 If you are using a design pattern then your code will be recognised by other developers because we all use 
 the same design patterns. It's a bit like using inheritance, because it's a good idea to, but design patterns 
-arenít specifically built into the language and so can be more encompassing and general. Here we will look at 
+aren‚Äôt specifically built into the language and so can be more encompassing and general. Here we will look at 
 one example in detail and then briefly look at some others but there are many.
  
  ###  The Factory Design Pattern
- The Factory Design Pattern is used to handle dependencies. Wherever there is a ìnewî keyword there is a dependency. 
+ The Factory Design Pattern is used to handle dependencies. Wherever there is a ‚Äúnew‚Äù keyword there is a dependency. 
  This means that if you want to reuse the class then you must also have all of the classes it references with a new 
  keyword, and all of the classes each of those references with a new keyword! It quickly makes reuse impractical. 
  Instead the factory design pattern moves all the dependencies to one place, the factory, and if any are missing it 
- will report so via an exception. You may still have enough for what you want. It simplified dependencies greatly, 
- thatís why it is a good idea and that is why it has become the accepted solution for this problem.
+ will report so via an exception. You may still have enough for what you want. It simplifies dependencies greatly, 
+ that‚Äôs why it is a good idea and that is why it has become the accepted solution for this problem.
 
 
  [The full example code is in this repo](https://github.com/LeedsBeckettUniversityASE/ShapesFactory)
@@ -28,7 +28,7 @@ one example in detail and then briefly look at some others but there are many.
  }
  ```
   
- We create an interface so that the classes we are going to use in our program and, further classes that could be 
+ We create an interface so that the classes we are going to use in our program and further classes that could be 
  added in the future, all conform to the expectations of the application in hand. Here, the program is 
  going to want to draw the shape and calculate the area and perimeter. The main program calls these methods to do that. 
  If a future developer wrote a new class that conforms to this interface, to draw a triangle say, then the main 
@@ -38,21 +38,21 @@ one example in detail and then briefly look at some others but there are many.
  then it would be possible to compile the program and run it, but when it tried to execute the missing methods 
  the previously working main code would generate run-time errors.
  Further, the factory design 
- pattern stipulates that we donít use constructors. The reason for this is that the factory just makes stuff. 
+ pattern stipulates that we don‚Äôt use constructors. The reason for this is that the factory just makes stuff. 
  Think of asking for a bike frame, you get back a raw, unpainted, carbon fibre frame. You would then paint it 
  and add any other components. The constructor is like making it, painting it the colour you want and attaching the components to it.
- It isnít the factoryís role (so the design 
+ It isn‚Äôt the factory‚Äôs role (so the design 
  pattern says). But, in the end you will still want your frame painted. We just do this after it has been created 
  by the factory. So, in effect we just write any methods that takes the place of any constructors and they can be 
  called after the factory has created the object (this gets around the fact that a constructor is called only when 
- creating an object). The factory therefore only uses blank constructors (i.e. newClass() ). To cut a long story 
- short, the set() method in the interface is taking the place of the constructor. This has the effect of 
+ creating an object). The factory therefore only uses blank constructors (i.e. newClass()). To cut a long story 
+ short, the set() method in the interface is taking the place of any constructors that aren't just blank. This has the effect of 
  moving all dependencies into the factory and out of the main program. 
  The main program will then call the set() method to set up the object after it has been created by the factory.
- This simplifies the "wiring" of the application and makes it more reusable. 
+ This simplifies the "wiring" of the application and makes it more reusable. It is like moving all the wiring to one place, instead#
+ of potentially all over the application. This makes reusing the classes easier and therefore more likely.
 
- 
-
+ For example
  ```csharp
  \\old way
  Circle c = new Circle(Color.Red, 10, 10, 50); //uses a constructor
@@ -120,7 +120,7 @@ one example in detail and then briefly look at some others but there are many.
 
     }
   ```
-  This isnít doing anything special. It is just the inheritance example. 
+  This isn‚Äôt doing anything special. It is just the inheritance example. 
 
   ### Stage 3 Create the derived classes
   ```csharp
@@ -175,9 +175,9 @@ one example in detail and then briefly look at some others but there are many.
         }
     }
   ```
-  Notice that the blank constructor is defined explicitly because it is set to call the base constructor. In this case I wrote the base (shape in this case) class so I know it does something, but I might not have. This just makes sure that it is called in case it needs to be.
+  Notice that the blank constructor is defined explicitly because it is set to call the base constructor. I wrote the base (shape in this case) class so I know it does something, but I might not have. This just makes sure that it is called in case it needs to be.
 
-  Note also, that the set() method is not being overridden. It is being overloaded (confusing terminology potentially). Overloading means it has the same name but a different signature (i.e. the parameter list is different). So not ìoverloadî keyword. Think about what is happening. When this method is called, it calls the similar set() method above to set the generic values before setting the radius.
+  Note also, that the set() method is not being overridden. It is being overloaded (confusing terminology potentially). Overloading means it has the same name but a different signature (i.e. the parameter list is different). So no ‚Äúoverload‚Äù keyword. Think about what is happening. When this method is called, it calls the similar set() method above to set the generic values before setting the radius.
 
   ### Stage 4 Create the Factory class
   ```csharp
@@ -213,6 +213,8 @@ one example in detail and then briefly look at some others but there are many.
   ```
 
   The factory doesn't do anything other than create a generic shape object based on what is asked for. Note that it uses the blank constructors only. The main program will then call the set() method to set it up.
+  Other factories could do more because they might dcide which sub-object to create, for example, if you asked it for a Vehicle it could decide whicg particular type of Vehicle fits the current circumstances and 
+  is therefore not jst simply creating t eobecjt it is asked for, like it is in the exampple above.
 
   ### Stage 5 Use the Factory to create the objects
 ```csharp
@@ -222,7 +224,7 @@ class Circle : Shape
 
      public Circle():base()
      {
-         //it's not obvious why I've bothered to put an empty blank constructor, but it is bacause I want it to call the base class constructor, in case that does anything.
+         //it's not obvious why I've bothered to put an empty blank constructor, but it is because I want it to call the base class constructor, in case that does anything.
      }
      public Circle(Color colour, int x, int y, int radius) : base(colour, x, y)
      {
@@ -238,11 +240,9 @@ class Circle : Shape
          this.radius = radius;
      }
 
-    
 
      public override void draw(Graphics g)
      {
-
          Pen p = new Pen(Color.Black,2);
          SolidBrush b = new SolidBrush(colour);
          g.FillEllipse(b, x, y, radius * 2, radius * 2);
@@ -269,7 +269,7 @@ class Circle : Shape
 
 ```
 
-The factory creates an object and returns its reference. We then call the newly created objectís set() method to set it up (a job that would formally have been done in the constructor. All the dependencies (new keyword) have been moved into the factory. In this trivial example they were all in the main program anyway, but in reality they would have been spread throughout a larger application, making reuse a nightmare.
+The factory creates an object and returns its reference. We then call the newly created object‚Äôs set() method to set it up, a job that would formally have been done in the constructor. All the dependencies (new keyword) have been moved into the factory. In this trivial example they were all in the main program anyway, but in reality they would have been spread throughout a larger application, making reuse a nightmare.
 
 # Other Design Patterns
 Here is a list of some other design patterns that tend to fit into the three types of Creational, Structural and Behavioural.
@@ -362,7 +362,7 @@ Console.WriteLine(car);
 
 ## Structural Patterns
 ### Adapter
-Allows incompatible interfaces to work together. It acts as a bridge between an existing class (the adaptee) and a client that expects a different interface (the target). Rather than modifying the existing codeówhich might be part of a library or legacy systemóthe adapter wraps the adaptee and translates requests from the client into a form the adaptee understands. This promotes code reusability, flexibility, and separation of concerns, since the client can interact with the target interface without being aware of the underlying implementation details. In C#, this often involves creating a class that implements the target interface and internally holds a reference to the adaptee, delegating method calls to it as needed.
+Allows incompatible interfaces to work together. It acts as a bridge between an existing class (the adaptee) and a client that expects a different interface (the target). Rather than modifying the existing code‚Äîwhich might be part of a library or legacy system‚Äîthe adapter wraps the adaptee and translates requests from the client into a form the adaptee understands. This promotes code reusability, flexibility, and separation of concerns, since the client can interact with the target interface without being aware of the underlying implementation details. In C#, this often involves creating a class that implements the target interface and internally holds a reference to the adaptee, delegating method calls to it as needed.
 
 ```csharp   
 public interface ITarget
@@ -398,7 +398,7 @@ ITarget adapter = new Adapter();
 adapter.Request();
 ```
 ### Decorator
-Allows behaviour to be added to individual objects dynamically, without altering the behavior of other objects from the same class. It achieves this by wrapping the original object within another object (the decorator) that implements the same interface and delegates most operations to the wrapped object, while optionally adding extra functionality before or after those calls. This pattern promotes flexibility and extensibility, as new features can be composed at runtime rather than through inheritance. In C#, the decorator pattern is often used to enhance classes like streams, UI components, or servicesóallowing developers to build complex behaviors by layering simple, reusable decorators around core functionality.
+Allows behaviour to be added to individual objects dynamically, without altering the behavior of other objects from the same class. It achieves this by wrapping the original object within another object (the decorator) that implements the same interface and delegates most operations to the wrapped object, while optionally adding extra functionality before or after those calls. This pattern promotes flexibility and extensibility, as new features can be composed at runtime rather than through inheritance. In C#, the decorator pattern is often used to enhance classes like streams, UI components, or services‚Äîallowing developers to build complex behaviors by layering simple, reusable decorators around core functionality.
 ```csharp
 public interface ICoffee
 {
@@ -446,7 +446,7 @@ Console.WriteLine(coffee.Description() + " costs " + coffee.Cost());
 ```
 
 ### Facade
-Provides a simplified interface to a complex subsystem, making it easier for clients to interact with the system without needing to understand its internal workings. It acts as a single point of access that encapsulates multiple classes or components, coordinating their interactions behind the scenes. This promotes loose coupling and improves code readability by hiding the subsystemís complexity and exposing only the essential operations through a clear, high-level interface. In C#, the facade pattern is commonly used to simplify operations that involve multiple subsystemsósuch as starting up a computer system, managing APIs, or handling layered servicesóallowing the client to perform complex tasks with a single, straightforward method call.
+Provides a simplified interface to a complex subsystem, making it easier for clients to interact with the system without needing to understand its internal workings. It acts as a single point of access that encapsulates multiple classes or components, coordinating their interactions behind the scenes. This promotes loose coupling and improves code readability by hiding the subsystem‚Äôs complexity and exposing only the essential operations through a clear, high-level interface. In C#, the facade pattern is commonly used to simplify operations that involve multiple subsystems‚Äîsuch as starting up a computer system, managing APIs, or handling layered services‚Äîallowing the client to perform complex tasks with a single, straightforward method call.
 ```csharp
 public class CPU
 {
@@ -500,7 +500,7 @@ computer.StartComputer();
 ```
 ## Behavioural Patterns
 ### Observer
-Defines a one-to-many relationship between objects, so that when one object (the subject) changes its state, all its dependent objects (the observers) are automatically notified and updated. This promotes loose coupling, as the subject does not need to know the details of its observersóit simply broadcasts updates, and observers decide how to respond. The pattern is especially useful for event-driven systems, user interface components, and real-time data updates. In C#, the observer pattern is often implemented using interfaces for the subject and observer, or through built-in mechanisms such as events and delegates, allowing efficient and flexible communication between objects while maintaining modular, maintainable code.
+Defines a one-to-many relationship between objects, so that when one object (the subject) changes its state, all its dependent objects (the observers) are automatically notified and updated. This promotes loose coupling, as the subject does not need to know the details of its observers‚Äîit simply broadcasts updates, and observers decide how to respond. The pattern is especially useful for event-driven systems, user interface components, and real-time data updates. In C#, the observer pattern is often implemented using interfaces for the subject and observer, or through built-in mechanisms such as events and delegates, allowing efficient and flexible communication between objects while maintaining modular, maintainable code.
 ```csharp
 public interface IObserver
 {
@@ -547,7 +547,7 @@ channel.Subscribe(new User("Bob"));
 channel.Notify("New video uploaded!");
 ```
 ### Strategy
-Allows an algorithmís behaviour to be selected at runtime. It defines a family of interchangeable algorithms, encapsulates each one within its own class, and makes them interchangeable through a common interface. This enables a client to choose or change the algorithm without modifying the code that uses it, promoting flexibility, extensibility, and adherence to the Open/Closed Principle. In C#, the strategy pattern is typically implemented by defining an interface that represents a particular operation, such as sorting or calculating, and then creating multiple concrete classes that implement different versions of that operation. The client can then switch strategies dynamically by passing different implementations to a context class, making the system more adaptable and easier to maintain.
+Allows an algorithm‚Äôs behaviour to be selected at runtime. It defines a family of interchangeable algorithms, encapsulates each one within its own class, and makes them interchangeable through a common interface. This enables a client to choose or change the algorithm without modifying the code that uses it, promoting flexibility, extensibility, and adherence to the Open/Closed Principle. In C#, the strategy pattern is typically implemented by defining an interface that represents a particular operation, such as sorting or calculating, and then creating multiple concrete classes that implement different versions of that operation. The client can then switch strategies dynamically by passing different implementations to a context class, making the system more adaptable and easier to maintain.
 
 ```csharp   
 public interface ISortStrategy
