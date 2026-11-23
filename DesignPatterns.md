@@ -32,7 +32,12 @@ one example in detail and then briefly look at some others but there are many.
  added in the future, all conform to the expectations of the application in hand. Here, the program is 
  going to want to draw the shape and calculate the area and perimeter. The main program calls these methods to do that. 
  If a future developer wrote a new class that conforms to this interface, to draw a triangle say, then the main 
- program does not need to be touched or viewed at all but will draw the new triangle. Further, the factory design 
+ program does not need to be touched or viewed at all but will draw the new triangle. 
+ Conversly, if a future developer wrote a new class that did not conform to this interface, then the main program would start generating
+ errors and the developer would know that they had not conformed to the interface. If an interface was not used to enforce this
+ then it would be possible to compile the program and run it, but when it tried to execute the missing methods 
+ the previously working main code would generate run-time errors.
+ Further, the factory design 
  pattern stipulates that we don’t use constructors. The reason for this is that the factory just makes stuff. 
  Think of asking for a bike frame, you get back a raw, unpainted, carbon fibre frame. You would then paint it 
  and add any other components. The constructor is like making it, painting it the colour you want and attaching the components to it.
@@ -41,7 +46,10 @@ one example in detail and then briefly look at some others but there are many.
  by the factory. So, in effect we just write any methods that takes the place of any constructors and they can be 
  called after the factory has created the object (this gets around the fact that a constructor is called only when 
  creating an object). The factory therefore only uses blank constructors (i.e. newClass() ). To cut a long story 
- short, the set() method in the interface is taking the place of the constructor.
+ short, the set() method in the interface is taking the place of the constructor. This has the effect of 
+ moving all dependencies into the factory and out of the main program. 
+ The main program will then call the set() method to set up the object after it has been created by the factory.
+ This simplifies the "wiring" of the application and makes it more reusable. 
 
  
 
@@ -56,7 +64,7 @@ one example in detail and then briefly look at some others but there are many.
 
  ### Stage 2 Create an abstract class that implements the interface
   ```csharp
- abstract class Shape:ShapesInterface
+ abstract class Shape:IShape
     {
         protected Color colour; //shape's colour
         protected int x, y; //not I could use c# properties for this
@@ -76,7 +84,7 @@ one example in detail and then briefly look at some others but there are many.
             //can't provide anything else as "shape" is too general
         }
 
-        //the three methods below are from the Shapes interface
+        //the three methods below are from the IShapes interface
         //here we are passing on the obligation to implement them to the derived classes by declaring them as abstract
         public virtual void draw(Graphics g)
         {
