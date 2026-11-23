@@ -16,7 +16,7 @@ one example in detail and then briefly look at some others but there are many.
  that’s why it is a good idea and that is why it has become the accepted solution for this problem.
 
 
- [The full example code is in this repo](https://github.com/LeedsBeckettUniversityASE/ShapesFactory)
+ [The full example code is in this repo](https://github.com/LeedsBeckettUniversityASE/ShapeFactoryExample)
  ### Stage 1 - Create an interface
  ```csharp
  interface IShape
@@ -33,32 +33,24 @@ one example in detail and then briefly look at some others but there are many.
  going to want to draw the shape and calculate the area and perimeter. The main program calls these methods to do that. 
  If a future developer wrote a new class that conforms to this interface, to draw a triangle say, then the main 
  program does not need to be touched or viewed at all but will draw the new triangle. 
- Conversly, if a future developer wrote a new class that did not conform to this interface, then the main program would start generating
+ Conversely, if a future developer wrote a new class that did not conform to this interface, then the main program would start generating
  errors and the developer would know that they had not conformed to the interface. If an interface was not used to enforce this
  then it would be possible to compile the program and run it, but when it tried to execute the missing methods 
  the previously working main code would generate run-time errors.
- Further, the factory design 
- pattern stipulates that we don’t use constructors. The reason for this is that the factory just makes stuff. 
- Think of asking for a bike frame, you get back a raw, unpainted, carbon fibre frame. You would then paint it 
- and add any other components. The constructor is like making it, painting it the colour you want and attaching the components to it.
- It isn’t the factory’s role (so the design 
- pattern says). But, in the end you will still want your frame painted. We just do this after it has been created 
- by the factory. So, in effect we just write any methods that takes the place of any constructors and they can be 
- called after the factory has created the object (this gets around the fact that a constructor is called only when 
- creating an object). The factory therefore only uses blank constructors (i.e. newClass()). To cut a long story 
- short, the set() method in the interface is taking the place of any constructors that aren't just blank. This has the effect of 
- moving all dependencies into the factory and out of the main program. 
- The main program will then call the set() method to set up the object after it has been created by the factory.
- This simplifies the "wiring" of the application and makes it more reusable. It is like moving all the wiring to one place, instead#
+ Further, the factory design pattern stipulates that we don’t use constructors directly. 
+ We can pass information to the factory to create the object and it may call constructors internally. 
+ This has the effect of moving all dependencies into the factory and out of the main program. 
+ This simplifies the "wiring" of the application and makes it more reusable. It is like moving all the wiring to one place, instead
  of potentially all over the application. This makes reusing the classes easier and therefore more likely.
 
  For example
  ```csharp
- \\old way
- Circle c = new Circle(Color.Red, 10, 10, 50); //uses a constructor
- \\using a factory (new way)
- Circle c = (Circle)ShapeFactory.getShape("Circle");
- c.set(Color.Red, 10, 10, 50); //uses a method to set the parameters
+// Old way
+Circle c = new Circle(Color.Red, 10, 10, 50); // directly coupled to Circle
+
+// Using a factory (new way)
+ShapeFactory factory = new ShapeFactory();
+IShape s = factory.GetShape("Circle", Color.Red, 10, 10, 50);
 
  ```
 
@@ -67,7 +59,7 @@ one example in detail and then briefly look at some others but there are many.
  abstract class Shape:IShape
     {
         protected Color colour; //shape's colour
-        protected int x, y; //not I could use c# properties for this
+        protected int x, y; //note I could use c# properties for this
         public Shape()
         {
             colour = Color.Red;
@@ -86,27 +78,26 @@ one example in detail and then briefly look at some others but there are many.
 
         //the three methods below are from the IShapes interface
         //here we are passing on the obligation to implement them to the derived classes by declaring them as abstract
+        //note the using statement is used to ensure that the resources are disposed of properly after use, which is important for graphics operations to avoid memory leaks and ensure efficient resource management.
         public virtual void draw(Graphics g)
         {
-            Font drawFont = new Font("Arial", 12);
-            SolidBrush drawBrush = new SolidBrush(Color.Black);
-            // Set format of string.
-            StringFormat drawFormat = new StringFormat();
+            using Font drawFont = new Font("Arial", 12);
+            using SolidBrush drawBrush = new SolidBrush(Color.Black);
+            using StringFormat drawFormat = new StringFormat();
             drawFormat.FormatFlags = StringFormatFlags.NoClip;
             String text = this.ToString();
-            g.DrawString(text, drawFont, drawBrush,this.x, this.y, drawFormat);
+            g.DrawString(text, drawFont, drawBrush, this.x, this.y, drawFormat);
         }
-        public abstract double calcArea(); //any derrived class must implement this method
-        public abstract double calcPerimeter(); //any derrived class must implement this method
+        public abstract double calcArea(); //any derived class must implement this method
+        public abstract double calcPerimeter(); //any derived class must implement this method
 
         //set is declared as virtual so it can be overridden by a more specific child version
         //but is here so it can be called by that child version to do the generic stuff
-        //note the use of the param keyword to provide a variable parameter list to cope with some shapes having more setup information than others
-        public  virtual void set(Color colour, params int[] list)
+        public  virtual void set(Color colour, int x, int y)
         {
             this.colour = colour;
-            this.x = list[0];
-            this.y = list[1];
+            this.x = x;
+            this.y =y;
         }
 
 
@@ -130,12 +121,12 @@ one example in detail and then briefly look at some others but there are many.
 
         public Circle():base()
         {
-            //it's not obvious why I've bothered to put an empty blank constructor, but it is bacause I want it to call the base class constructor, in case that does anything.
+            //it's not obvious why I've bothered to put an empty blank constructor, but it is because I want it to call the base class constructor, in case that does anything.
         }
         public Circle(Color colour, int x, int y, int radius) : base(colour, x, y)
         {
 
-            this.radius = radius; //the only thingthat is different from shape
+            this.radius = radius; //the only thing that is different from shape
         }
 
       
@@ -151,8 +142,8 @@ one example in detail and then briefly look at some others but there are many.
         public override void draw(Graphics g)
         {
 
-            Pen p = new Pen(Color.Black,2);
-            SolidBrush b = new SolidBrush(colour);
+            using Pen p = new Pen(Color.Black, 2);
+            using SolidBrush b = new SolidBrush(colour);
             g.FillEllipse(b, x, y, radius * 2, radius * 2);
             g.DrawEllipse(p, x, y, radius * 2, radius * 2);
             base.draw(g);
@@ -160,7 +151,7 @@ one example in detail and then briefly look at some others but there are many.
 
         public override double calcArea()
         {
-            return Math.PI * (radius^2);
+            return Math.PI * (radius*radius);
         }
 
         public override double calcPerimeter()
@@ -168,108 +159,187 @@ one example in detail and then briefly look at some others but there are many.
             return 2 * Math.PI*radius;
         }
 
-        public override string ToString() //all classes inherit from object and ToString() is abstract in object
+        public override string ToString() //all classes inherit from object and ToString() is virtual in object
         {
             String text = base.ToString() + "  " + this.radius; 
             return text;
         }
     }
   ```
+
+  Now Rectangle.
+
+  ```csharp
+   class Rect : Shape
+    {
+        int width, height;
+
+        public Rect() : base()
+        {
+            //it's not obvious why I've bothered to put an empty blank constructor, but it is because I want it to call the base class constructor, in case that does anything.
+        }
+        public Rect(Color colour, int x, int y, int width, int height) : base(colour, x, y)
+        {
+
+            this.width = width;
+            this.height = height;
+        }
+
+
+        public void set(Color colour, int x, int y, int width, int height)
+        {
+            //note: This is not overridden, it is overloaded as it isn't the same method signature as in Shape
+            base.set(colour, x, y);
+            this.width = width;
+            this.height = height;
+        }
+
+        public override void draw(Graphics g)
+        {
+            using Pen p = new Pen(Color.Black, 2);
+            using SolidBrush b = new SolidBrush(colour);
+            g.FillRectangle(b, x, y, width, height);
+            g.DrawRectangle(p, x, y, width, height);
+            base.draw(g);
+        }
+
+        public override double calcArea()
+        {
+            return (width * height);
+        }
+
+        public override double calcPerimeter()
+        {
+            return 2 * (width + height);
+        }
+
+        public override string ToString() //all classes inherit from object and ToString() is virtual in object
+        {
+            String text = base.ToString() + "  " + this.width + " x " + this.height;
+            return text;
+        }
+    }
+  ```
+
   Notice that the blank constructor is defined explicitly because it is set to call the base constructor. I wrote the base (shape in this case) class so I know it does something, but I might not have. This just makes sure that it is called in case it needs to be.
 
-  Note also, that the set() method is not being overridden. It is being overloaded (confusing terminology potentially). Overloading means it has the same name but a different signature (i.e. the parameter list is different). So no “overload” keyword. Think about what is happening. When this method is called, it calls the similar set() method above to set the generic values before setting the radius.
+  Note also, that the set() method is not being overridden. It is being overloaded (confusing terminology potentially). Overloading means it has the same name but a different signature (i.e. the parameter list is different). So no “overload” keyword. Think about what is happening. When this method is called, it calls the similar set() method above to set the generic values before setting the dimensions.
 
   ### Stage 4 Create the Factory class
   ```csharp
-   class ShapeFactory
+ class ShapeFactory
     {
-        public Shape getShape(String shapeType)
+        public IShape GetShape(string shapeType, Color colour, int x, int y, params int[] dimensions)
         {
-            shapeType = shapeType.ToUpper().Trim(); //you could argue that you want a specific word string to create an object but I'm allowing any case combination
-                    
-            if (shapeType.Equals("CIRCLE"))
-            {
-                return new Circle();
+            shapeType = shapeType.ToUpper().Trim();
 
-            }
-            else if (shapeType.Equals("RECTANGLE"))
+            switch (shapeType)
             {
-                return new Rectangle();
+                case "CIRCLE":
+                    if (dimensions.Length < 1)
+                    {
+                        throw new ArgumentException("Factory error: Circle requires a radius.");
+                    }
+                    return new Circle(colour, x, y, dimensions[0]);
 
+                case "RECT":
+                    if (dimensions.Length < 2)
+                    {
+                        throw new ArgumentException("Factory error: Rectangle requires width and height.");
+                    }
+                    return new Rect(colour, x, y, dimensions[0], dimensions[1]);
+
+                case "SQUARE":
+                    if (dimensions.Length < 1)
+                    {
+                        throw new ArgumentException("Factory error: Square requires a side length.");
+                    }
+                    return new Square(colour, x, y, dimensions[0]);
+
+                default:
+                    throw new ArgumentException("Factory error: " + shapeType + " does not exist");
             }
-            else if (shapeType.Equals("SQUARE"))
-            {
-                return new Square();
-            }
-            else
-            {
-                //if we get here then what has been passed in is unknown so throw an appropriate exception
-                System.ArgumentException argEx = new System.ArgumentException("Factory error: "+shapeType+" does not exist");
-                throw argEx;
-            }          
         }
     }
-
   ```
+  The factory GetShape method takes a string for the shape to create and the standard Shape parameters, colour, x and y, but it then uses a variable parameter so that it can accept any number of extra int parameters.
+  Each shape then checks that it has the correct number of parameters before creating and returning the shape.
 
-  The factory doesn't do anything other than create a generic shape object based on what is asked for. Note that it uses the blank constructors only. The main program will then call the set() method to set it up.
-  Other factories could do more because they might dcide which sub-object to create, for example, if you asked it for a Vehicle it could decide whicg particular type of Vehicle fits the current circumstances and 
-  is therefore not jst simply creating t eobecjt it is asked for, like it is in the exampple above.
+  Note a standalone ShapeFactory switching on a string is technically the Simple Factory idiom (rather than the Gang of Four Factory Method pattern), you may want to look this up.
 
   ### Stage 5 Use the Factory to create the objects
 ```csharp
-class Circle : Shape
- {
-     int radius;
+ public partial class Form1 : Form
+    {
+        List<IShape> shapes = new List<IShape>();
 
-     public Circle():base()
-     {
-         //it's not obvious why I've bothered to put an empty blank constructor, but it is because I want it to call the base class constructor, in case that does anything.
-     }
-     public Circle(Color colour, int x, int y, int radius) : base(colour, x, y)
-     {
+        public Form1()
+        {
+            InitializeComponent();
 
-         this.radius = radius; //the only thingthat is different from shape
-     }
+            ShapeFactory factory = new ShapeFactory();
+            string[] shapeTypes = { "circle", "rect", "square", "tri" };
+            //add some random shapes
+            Random rand = new Random(77887);
+            for (int i = 0; i < 150; i++)
+            {
+                string shapeType = shapeTypes[rand.Next(shapeTypes.Length)];
+                int x = rand.Next(ClientSize.Width);
+                int y = rand.Next(ClientSize.Height);
+                int size1 = rand.Next(10, 80);
+                int size2 = rand.Next(10, 80);
 
-      
-     public  void set( Color colour, int x, int y, int radius)
-     {
-         //note: This is not overridden, it is overloaded as it isn't the same method signature as in Shape
-         base.set(colour, x, y);
-         this.radius = radius;
-     }
+                int red = rand.Next(255);
+                int green = rand.Next(255);
+                int blue = rand.Next(255);
+                Color newColour = Color.FromArgb(128, red, green, blue); //128 is semi transparent
+                try
+                {
+                    // Simulates reading a shape name and raw dimensions from a file
+                    IShape s = factory.GetShape(shapeType, newColour, x, y, size1, size2);
+                    shapes.Add(s);
+                }
+                catch (ArgumentException e)
+                {
+                    Console.WriteLine("Invalid shape: " + e.Message);
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Handles the Paint event for the form, rendering all shapes in the collection to the screen.
+        /// </summary>
+        /// <remarks>This method iterates through a collection of shapes and calls their <c>draw</c>
+        /// method to render them onto the form's graphics surface. If a null shape is encountered in the collection, a
+        /// warning message is logged to the console.</remarks>
+        /// <param name="sender">The source of the event, typically the form being painted.</param>
+        /// <param name="e">A <see cref="PaintEventArgs"/> object that provides data for the Paint event, including the graphics surface
+        /// to draw on.</param>
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+            Console.WriteLine("paint called");
+            Graphics g = e.Graphics;
 
 
-     public override void draw(Graphics g)
-     {
-         Pen p = new Pen(Color.Black,2);
-         SolidBrush b = new SolidBrush(colour);
-         g.FillEllipse(b, x, y, radius * 2, radius * 2);
-         g.DrawEllipse(p, x, y, radius * 2, radius * 2);
-         base.draw(g);
-     }
+            for (int i = 0; i < shapes.Count; i++)
+            {
+                IShape s;
+                s = shapes[i];
+                if (s != null)
+                {
+                    s.draw(g);
+                    Console.WriteLine(s.ToString());
+                }
+                else
+                    Console.WriteLine("invalid shape in array"); //shouldn't happen as factory does not produce rubbish
 
-     public override double calcArea()
-     {
-         return Math.PI * (radius^2);
-     }
-
-     public override double calcPerimeter()
-     {
-         return 2 * Math.PI*radius;
-     }
-
-     public override string ToString() //all classes inherit from object and ToString() is abstract in object
-     {
-         String text = base.ToString() + "  " + this.radius; 
-         return text;
-     }
- }
-
+            }
+        }
+    }
 ```
 
-The factory creates an object and returns its reference. We then call the newly created object’s set() method to set it up, a job that would formally have been done in the constructor. All the dependencies (new keyword) have been moved into the factory. In this trivial example they were all in the main program anyway, but in reality they would have been spread throughout a larger application, making reuse a nightmare.
+All the dependencies (new keyword) have been moved into the factory. In this trivial example they were all in the main program anyway, but in reality they would have been spread throughout a larger application, making reuse a nightmare.
 
 # Other Design Patterns
 Here is a list of some other design patterns that tend to fit into the three types of Creational, Structural and Behavioural.
@@ -318,7 +388,7 @@ public class Logger
 Logger.Instance.Log("Application started");
 ```
 
-## Builder
+### Builder
 Separates the construction of a complex object from its representation, allowing the same construction process to create different types or configurations of objects. Instead of using a long or confusing constructor with many parameters, the builder provides a step-by-step approach where each method sets a specific property or part of the object. Once all parts are specified, a final Build() method returns the finished object. This makes code easier to read, maintain, and extend, especially when creating objects that require multiple optional or dependent components. In C#, the builder pattern is often implemented using a dedicated Builder class that holds an instance of the object being built and exposes fluent methods to configure it.
 ```csharp
 public class Car
@@ -398,7 +468,7 @@ ITarget adapter = new Adapter();
 adapter.Request();
 ```
 ### Decorator
-Allows behaviour to be added to individual objects dynamically, without altering the behavior of other objects from the same class. It achieves this by wrapping the original object within another object (the decorator) that implements the same interface and delegates most operations to the wrapped object, while optionally adding extra functionality before or after those calls. This pattern promotes flexibility and extensibility, as new features can be composed at runtime rather than through inheritance. In C#, the decorator pattern is often used to enhance classes like streams, UI components, or services—allowing developers to build complex behaviors by layering simple, reusable decorators around core functionality.
+Allows behaviour to be added to individual objects dynamically, without altering the behaviour of other objects from the same class. It achieves this by wrapping the original object within another object (the decorator) that implements the same interface and delegates most operations to the wrapped object, while optionally adding extra functionality before or after those calls. This pattern promotes flexibility and extensibility, as new features can be composed at runtime rather than through inheritance. In C#, the decorator pattern is often used to enhance classes like streams, UI components, or services—allowing developers to build complex behaviours by layering simple, reusable decorators around core functionality.
 ```csharp
 public interface ICoffee
 {
